@@ -44,4 +44,7 @@
     </string>
     <string name="descripcionTarea">Descripcion de la Tarea</string>
     <string name="fechaTarea">Fecha de la tarea</string>
+    <string name="Descripcion">Descripción</string>
+    <string name="Fecha">Fecha</string>
+    <string name="Guardar">GUARDAR</string>
 </resources>
