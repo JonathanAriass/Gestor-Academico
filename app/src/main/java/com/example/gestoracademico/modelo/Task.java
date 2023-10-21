@@ -18,6 +18,11 @@ public class Task implements Parcelable {
         this.imagen = imagen;
     }
 
+    public Task(String descripcion, String fecha) {
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+    }
+
     protected Task(Parcel in) {
         descripcion = in.readString();
         fecha = in.readString();

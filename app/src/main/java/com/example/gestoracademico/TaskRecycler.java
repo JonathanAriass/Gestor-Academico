@@ -1,5 +1,6 @@
 package com.example.gestoracademico;
 
+import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -92,5 +93,10 @@ public class TaskRecycler extends AppCompatActivity {
         System.out.println(tarea);
         listaTareas.add( t1);
         listaTareas.add( t2);
+    }
+
+    public void crearNuevaTarea(View view) {
+        Intent intent=new Intent(TaskRecycler.this, NewTask.class);
+        startActivityForResult(intent, GESTION_ACTIVITY);
     }
 }
