@@ -1,5 +1,6 @@
 package com.example.gestoracademico;
 
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,8 @@ public class TaskRecycler extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         listaTareaView.setLayoutManager(layoutManager);
 
+        Log.i("PRUEBA", "Entra en onCreate");
+
         TaskListAdapter tlAdapter= new TaskListAdapter(listaTareas,
                 new TaskListAdapter.OnItemClickListener() {
                     @Override
@@ -59,7 +62,7 @@ public class TaskRecycler extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.i("PRUEBA", "Entra en onActivityResult");
         if(requestCode == GESTION_ACTIVITY){
 
             if (resultCode == RESULT_OK){
