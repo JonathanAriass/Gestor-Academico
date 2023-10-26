@@ -1,9 +1,11 @@
 package com.example.gestoracademico.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.gestoracademico.NewTask;
 import com.example.gestoracademico.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -62,5 +64,10 @@ public class NavigationDrawer extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation_drawer);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+        public void crearNuevaTarea(View view) {
+        Intent intent=new Intent(NavigationDrawer.this, NewTask.class);
+        startActivityForResult(intent, 1);
     }
 }

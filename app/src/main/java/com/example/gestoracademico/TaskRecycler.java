@@ -52,10 +52,10 @@ public class TaskRecycler extends AppCompatActivity {
         listaTareaView.setAdapter(tlAdapter);
     }
 
-    public void clickonItem (Task peli){
+    public void clickonItem (Task tarea){
 
         Intent intent=new Intent (TaskRecycler.this, MainActivity.class);
-        intent.putExtra(TAREA_SELECCIONADA, peli);
+        intent.putExtra(TAREA_SELECCIONADA, tarea);
         startActivity(intent);
     }
 
@@ -98,8 +98,8 @@ public class TaskRecycler extends AppCompatActivity {
         listaTareas.add( t2);
     }
 
-    public void crearNuevaTarea(View view) {
-        Intent intent=new Intent(TaskRecycler.this, NewTask.class);
-        startActivityForResult(intent, GESTION_ACTIVITY);
-    }
+//    public void crearNuevaTarea(View view) {
+//        Intent intent=new Intent(TaskRecycler.this, NewTask.class);
+//        startActivityForResult(intent, GESTION_ACTIVITY);
+//    }
 }

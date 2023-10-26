@@ -42,7 +42,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task tareaActual= listaTareas.get(position);
         Log.i("Lista","Visualiza elemento: "+tareaActual);
-//        holder.asignarValoresComponentes(tareaActual, listener);
+        holder.asignarValoresComponentes(tareaActual, listener);
     }
 
     @Override
