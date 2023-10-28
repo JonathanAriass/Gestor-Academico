@@ -1,29 +1,32 @@
 package com.example.gestoracademico.ui.ui.gallery;
 
-import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gestoracademico.R;
+import com.example.gestoracademico.TaskListAdapter;
 import com.example.gestoracademico.databinding.FragmentGalleryBinding;
+import com.example.gestoracademico.modelo.Task;
 import com.example.gestoracademico.ui.SQLiteHandler;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GalleryFragment extends Fragment {
 
@@ -33,11 +36,14 @@ public class GalleryFragment extends Fragment {
 
     private EditText eventTitle;
 
+
     private CalendarView calendarView;
 
     private String selectedDate;
 
     private SQLiteDatabase sqLiteDatabase;
+
+    RecyclerView dayTasksView;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -48,8 +54,8 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        eventTitle = root.findViewById(R.id.eventTitle);
-        calendarView = root.findViewById(R.id.calendarView);
+        //eventTitle = root.findViewById(R.id.eventTitle);
+       calendarView = root.findViewById(R.id.calendarView);
 
         try{
 
@@ -65,22 +71,60 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 selectedDate = Integer.toString(year) + "/" + Integer.toString(month) + "/" + Integer.toString(dayOfMonth);
-                readDatabase(view);
+                readTask(root);
+                //readDatabase(view);
             }
         });
 
 
-        Button button = (Button) root.findViewById(R.id.modifyButton);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                insertDatabase(v);
-            }
-        });
+        //Button button = (Button) root.findViewById(R.id.modifyButton);
+//        button.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                insertDatabase(v);
+//            }
+//        });
 
         return root;
+    }
+
+
+    /**
+     * Buscará si hay alguna tarea para el día
+     * elegido en el calendario
+     */
+    private void readTask(View root) {
+
+        dayTasksView = root.findViewById(R.id.recyclerCalendar);
+        dayTasksView.setHasFixedSize(true);
+
+        dayTasksView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Task t1= new Task("Hacer tarea de SI","26/8/2020","");
+        Task t2= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
+        Task t3= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
+        Task t4= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
+
+        List<Task> listaTareas =  new ArrayList<Task>();
+
+        listaTareas.add( t1);
+        listaTareas.add( t2);
+        listaTareas.add( t3);
+        listaTareas.add( t4);
+
+        TaskListAdapter tlAdapter= new TaskListAdapter(listaTareas,
+                new TaskListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Task tarea) {
+
+                        Log.i("Click en tarea", "Click");
+                       // clickonItem(tarea);
+                    }
+                });
+        dayTasksView.setAdapter(tlAdapter);
+
     }
 
     public void insertDatabase(View view){
@@ -91,13 +135,7 @@ public class GalleryFragment extends Fragment {
 
     }
 
-//    public void deleteDatabase(View view){
-//        ContentValues contentValues = new ContentValues();
-//        String[] whereArgs = new String[1];
-//        whereArgs[0] = selectedDate;
-//        sqLiteDatabase.delete("EventCalendar", "Date",whereArgs);
-//
-//    }
+
 
     public void readDatabase(View view){
         String query = "Select Event from EventCalendar where Date = " + selectedDate;

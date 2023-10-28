@@ -151,7 +151,9 @@ public class HomeFragment extends Fragment {
     }
 
 
-
+    public List<Task> getListaTareas() {
+        return listaTareas;
+    }
 
     @Override
     public void onDestroyView() {
