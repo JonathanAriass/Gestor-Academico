@@ -55,6 +55,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--Calendar Fragment-->
+    <string name="eventTitle">Titulo del evento</string>
+
     <string name="menu_home">Home</string>
     <string name="menu_calendar">Calendario</string>
     <string name="menu_export">Exportacion</string>

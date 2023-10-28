@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
 //        args.putString(ESTRENO_PELI, estreno);
 //        args.putString(DURACION_PELI, duracion);
         fragment.setArguments(args);
-        
+
         return fragment;
     }
 
