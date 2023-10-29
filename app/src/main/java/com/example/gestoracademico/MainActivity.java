@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.gestoracademico.modelo.Task;
+import android.widget.EditText;
+
+import com.example.gestoracademico.modelo.Task;
+import com.example.gestoracademico.ui.ui.home.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 

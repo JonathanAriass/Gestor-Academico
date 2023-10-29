@@ -22,7 +22,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
     public TaskListAdapter(List<Task> tareas, OnItemClickListener listener) {
         this.listaTareas = tareas;
-        this.listener = listener;
+        this.listener = listener != null ? listener : null;
+    }
+
+    public TaskListAdapter(List<Task> tareas) {
+        this.listaTareas = tareas;
+        listener = null;
     }
 
     @NonNull
@@ -75,12 +80,12 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
             //Picasso.get().load(tarea.getImagen()).into(imagen);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    Log.i("Hola", "Hola");
-                    listener.onItemClick(tarea);
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    Log.i("Hola", "Hola");
+//                    listener.onItemClick(tarea);
+//                }
+//            });
         }
     }
 }

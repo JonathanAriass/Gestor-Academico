@@ -48,6 +48,8 @@ public class TaskRecycler extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         listaTareaView.setLayoutManager(layoutManager);
 
+        Log.i("PRUEBA", "Entra en onCreate");
+
         TaskListAdapter tlAdapter= new TaskListAdapter(listaTareas,
                 new TaskListAdapter.OnItemClickListener() {
                     @Override
@@ -76,6 +78,7 @@ public class TaskRecycler extends AppCompatActivity {
         intent.putExtra(TAREA_SELECCIONADA, task);
         intent.putExtra(TAREA_INDEX_SELECCIONADA, index);
         startActivityForResult(intent, GESTION_ACTIVITY);
+
     }
 
     @Override
@@ -83,6 +86,8 @@ public class TaskRecycler extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.i("REQUEST", requestCode + " | " + resultCode);
+        Log.i("PRUEBA", "Entra en onActivityResult");
+
         if(requestCode == GESTION_ACTIVITY){
 
             if (resultCode == RESULT_OK){
@@ -144,4 +149,5 @@ public class TaskRecycler extends AppCompatActivity {
         Intent intent = new Intent(TaskRecycler.this, MainActivity.class);
         startActivityForResult(intent, GESTION_ACTIVITY);
     }
+
 }

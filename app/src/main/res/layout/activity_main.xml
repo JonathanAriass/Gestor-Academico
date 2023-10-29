@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <TextView
+
         android:id="@+id/tVDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,4 +60,5 @@
         app:layout_constraintHorizontal_bias="0.946"
         android:layout_marginTop="16dp" app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.248"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

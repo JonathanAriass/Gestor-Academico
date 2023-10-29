@@ -13,31 +13,26 @@
         android:theme="@style/Theme.GestorAcademico"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TaskRecycler"
-            android:exported="true">
+            android:name=".ui.NavigationDrawer"
+            android:exported="true"
+            android:label="@string/title_activity_navigation_drawer"
+            android:theme="@style/Theme.GestorAcademico.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-                android:name=".NewTask"
-                android:exported="true"
-        />
-<!--        <activity-->
-<!--            android:name=".MainActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TaskRecycler"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".NewTask"
+            android:exported="true" />
     </application>
 
 </manifest>
