@@ -104,8 +104,8 @@ public class GalleryFragment extends Fragment {
 
         Task t1= new Task("Hacer tarea de SI","26/8/2020","");
         Task t2= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
-        Task t3= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
-        Task t4= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
+        Task t3= new Task("Comprar patatas, huevos, leche, cereales y manzanas","28/8/2020","");
+        Task t4= new Task("Comprar patatas, huevos, leche, cereales y manzanas","28/8/2020","");
 
         List<Task> listaTareas =  new ArrayList<Task>();
 
