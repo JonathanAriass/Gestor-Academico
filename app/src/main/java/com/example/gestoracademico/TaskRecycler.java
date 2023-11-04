@@ -10,8 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +40,17 @@ public class TaskRecycler extends AppCompatActivity {
     Task tarea;
     RecyclerView listaTareaView;
 
+    private AppDatabase appDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_recycler);
 
-        rellenarListaTareas(); //rellena la lista de tareas
+//        rellenarListaTareas(); //rellena la lista de tareas
+
+//        appDatabase = AppDatabase.getDatabase(this);
+//        loadTasks();
 
         listaTareaView = (RecyclerView)findViewById(R.id.reciclerView);
         listaTareaView.setHasFixedSize(true);
@@ -58,6 +68,12 @@ public class TaskRecycler extends AppCompatActivity {
                     }
                 });
         listaTareaView.setAdapter(tlAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     private int getIndexOfTask(Task task) {
@@ -126,19 +142,57 @@ public class TaskRecycler extends AppCompatActivity {
     }
 
 
+    protected void loadTasks() {
+        Task task = null;
+        listaTareas = new ArrayList<>();
+        InputStream file;
+        InputStreamReader reader;
+        BufferedReader bufferedReader = null;
+
+        try {
+            file = getAssets().open("tasks.csv");
+            reader = new InputStreamReader(file);
+            bufferedReader = new BufferedReader(reader);
+
+            String line = null;
+            bufferedReader.readLine();
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data != null && data.length >= 5) {
+                    if (data.length==3) {
+                        task = new Task(Integer.parseInt(data[0]), data[1], data[2]);
+                        appDatabase.getTaskDAO().add(task);
+                    }
+                    Log.d("loadTasks()", task.toString());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
     /**
      * Rellenará la lista de tareas
      * (HASTA EL MOMENTO HARDCODEADO)
      */
-    private void rellenarListaTareas(){
-        listaTareas = new ArrayList<Task>();
-        Task t1= new Task("Hacer tarea de SI","26/8/2020","");
-        Task t2= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
-
-        System.out.println(tarea);
-        listaTareas.add( t1);
-        listaTareas.add( t2);
-    }
+//    private void rellenarListaTareas(){
+//        listaTareas = new ArrayList<Task>();
+//        Task t1= new Task("Hacer tarea de SI","26/8/2020","");
+//        Task t2= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
+//
+//        System.out.println(tarea);
+//        listaTareas.add( t1);
+//        listaTareas.add( t2);
+//    }
 
     public void crearNuevaTarea(View view) {
         Intent intent=new Intent(TaskRecycler.this, NewTask.class);
