@@ -1,17 +1,13 @@
 package com.example.gestoracademico.ui.ui.gallery;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,13 +15,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gestoracademico.CalendarTaskListAdapter;
 import com.example.gestoracademico.R;
-import com.example.gestoracademico.TaskListAdapter;
 import com.example.gestoracademico.databinding.FragmentGalleryBinding;
+import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
 import com.example.gestoracademico.ui.SQLiteHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GalleryFragment extends Fragment {
@@ -44,6 +44,8 @@ public class GalleryFragment extends Fragment {
     private SQLiteDatabase sqLiteDatabase;
 
     RecyclerView dayTasksView;
+    private AppDatabase appDatabase;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,41 +55,44 @@ public class GalleryFragment extends Fragment {
 
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        calendarView = root.findViewById(R.id.calendarView);
 
-        //eventTitle = root.findViewById(R.id.eventTitle);
-       calendarView = root.findViewById(R.id.calendarView);
+        dayTasksView = root.findViewById(R.id.recyclerCalendar);
+        dayTasksView.setHasFixedSize(true);
+        dayTasksView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        try{
+        appDatabase = AppDatabase.getDatabase(getContext());
 
-            dbHandler = new SQLiteHandler(getContext(), "CalendarDatabase", null,1);
-            sqLiteDatabase = dbHandler.getWritableDatabase();
-            sqLiteDatabase.execSQL("CREATE TABLE EventCalendar(Date TEXT, Event TEXT)");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        updateCurrentDayTasks(root);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selectedDate = Integer.toString(year) + "/" + Integer.toString(month) + "/" + Integer.toString(dayOfMonth);
-                readTask(root);
-                //readDatabase(view);
+                if(dayOfMonth < 10){
+                    selectedDate = 0+Integer.toString(dayOfMonth) + "/" + Integer.toString(month+1) + "/" + Integer.toString(year);
+                }else{
+                    selectedDate = Integer.toString(dayOfMonth) + "/" + Integer.toString(month+1) + "/" + Integer.toString(year);
+                }
+                readTasks(root);
             }
         });
 
 
-        //Button button = (Button) root.findViewById(R.id.modifyButton);
-//        button.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                insertDatabase(v);
-//            }
-//        });
-
         return root;
+    }
+
+
+    /**
+     * Actualizará el recycler de tareas la
+     * primera vez que se entre al calendario
+     * @param root
+     */
+    private void updateCurrentDayTasks(View root) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String actualDate = String.valueOf(formatter.format(date));
+        selectedDate = actualDate;
+        readTasks(root);
     }
 
 
@@ -95,78 +100,29 @@ public class GalleryFragment extends Fragment {
      * Buscará si hay alguna tarea para el día
      * elegido en el calendario
      */
-    private void readTask(View root) {
+    private void readTasks(View root) {
 
-        dayTasksView = root.findViewById(R.id.recyclerCalendar);
-        dayTasksView.setHasFixedSize(true);
+        List<Task> listaActualTareas = new ArrayList<>();
 
-        dayTasksView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        Task t1= new Task("Hacer tarea de SI","26/8/2020","");
-        Task t2= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
-        Task t3= new Task("Comprar patatas, huevos, leche, cereales y manzanas","28/8/2020","");
-        Task t4= new Task("Comprar patatas, huevos, leche, cereales y manzanas","28/8/2020","");
-
-        List<Task> listaTareas =  new ArrayList<Task>();
-
-        listaTareas.add( t1);
-        listaTareas.add( t2);
-        listaTareas.add( t3);
-        listaTareas.add( t4);
-
-        TaskListAdapter tlAdapter= new TaskListAdapter(listaTareas,
-                new TaskListAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(Task tarea) {
-
-                        Log.i("Click en tarea", "Click");
-                       // clickonItem(tarea);
-                    }
-                });
-        dayTasksView.setAdapter(tlAdapter);
-
-    }
-
-    public void insertDatabase(View view){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("Date",selectedDate);
-        contentValues.put("Event", eventTitle.getText().toString());
-        sqLiteDatabase.insert("EventCalendar", null, contentValues);
-
-    }
-
-
-
-    public void readDatabase(View view){
-        String query = "Select Event from EventCalendar where Date = " + selectedDate;
         try{
-            Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-            cursor.moveToFirst();
-            eventTitle.setText(cursor.getString(0));
-            Toast.makeText(getContext(),cursor.getString(0),Toast.LENGTH_LONG).show();
-        }
-        catch (Exception e){
+            listaActualTareas = appDatabase.getTaskDAO().getByDate(selectedDate);
+            CalendarTaskListAdapter tlAdapter= new CalendarTaskListAdapter(listaActualTareas,
+                    new CalendarTaskListAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Task tarea) {
+
+                            Log.i("Click en tarea", "Click");
+                        }
+                    });
+            dayTasksView.setAdapter(tlAdapter);
+
+
+        }catch(Exception e){
             e.printStackTrace();
-            eventTitle.setText("");
         }
     }
 
-//    private void showCalendar() {
-//        Calendar cal = Calendar.getInstance();
-//        int year = cal.get(Calendar.YEAR);
-//        int month = cal.get(Calendar.MONTH);
-//        int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//        DatePickerDialog dpd = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                //String date = dayOfMonth + "/" + month + "/" + year;
-//
-//            }
-//        }, year, month, day);
-//        dpd.show();
-//
-//    }
+
 
     @Override
     public void onDestroyView() {
