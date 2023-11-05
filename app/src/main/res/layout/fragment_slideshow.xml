@@ -13,31 +13,36 @@
         android:padding="75dp"
         tools:context=".MainActivity">
 
-        <!-- Campo de entrada para el título -->
-        <EditText
-            android:id="@+id/editTextTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:hint="Título del PDF"
-            android:inputType="text" />
+        <RadioGroup
+                android:id="@+id/templateSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-        <!-- Campo de entrada para el contenido -->
-        <EditText
-            android:id="@+id/editTextContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:hint="Contenido del PDF"
-            android:inputType="textMultiLine" />
+            <RadioButton
+                    android:id="@+id/radioGenericTemplate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Plantilla Genérica"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Botón para generar el PDF -->
-        <Button
-            android:id="@+id/buttonGeneratePDF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Generar PDF" />
+            <RadioButton
+                    android:id="@+id/radioAcademicTemplate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Plantilla Académica"
+                    app:layout_constraintEnd_toEndOf="parent" />
+        </RadioGroup>
+
+        <FrameLayout
+                android:id="@+id/templateContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

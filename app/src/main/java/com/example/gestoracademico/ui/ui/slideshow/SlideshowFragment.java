@@ -5,10 +5,12 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import com.example.gestoracademico.ui.ui.slideshow.templates.AcademicTemplateFragment;
+import com.example.gestoracademico.ui.ui.slideshow.templates.GenericTemplateFragment;
 import com.itextpdf.text.Document;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,11 +29,15 @@ public class SlideshowFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
 
-    private EditText title;
 
-    private EditText content;
+
+    private EditText subject;
 
     private Button generateButton;
+
+    private RadioGroup templateSelection;
+
+    private FrameLayout fragmentContainer;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -42,43 +48,37 @@ public class SlideshowFragment extends Fragment {
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        title = root.findViewById(R.id.editTextTitle);
+        fragmentContainer = root.findViewById(R.id.templateContainer);
+        templateSelection = root.findViewById(R.id.templateSelection);
 
-        content = root.findViewById(R.id.editTextContent);
-
-        generateButton = root.findViewById(R.id.buttonGeneratePDF);
-
-        generateButton.setOnClickListener(new View.OnClickListener() {
+        templateSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                String fileName = title.getText().toString() + ".pdf";
-                Document document = new Document();
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Fragment fragment = null;
+                switch (checkedId) {
+                    case R.id.radioGenericTemplate:
+                        fragment = new GenericTemplateFragment();
+                        break;
 
-                try {
-                    String carpeta = "/pdf";
-                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + carpeta;
-
-                    // Directorio interno donde se guardará el archivo
-                    File dir = new File(path);
-                    if(!dir.exists()){
-                        dir.mkdirs();
-                    }
-
-                    // Ruta completa del archivo
-                    File file = new File(dir, fileName);
-                    PdfWriter.getInstance(document, new FileOutputStream(file));
-                    document.open();
-
-                    // Agregar contenido al documento
-                    Paragraph contentParagraph = new Paragraph(content.getText().toString());
-                    document.add(contentParagraph);
-
-                    document.close();
-                } catch (DocumentException | FileNotFoundException e) {
-                    e.printStackTrace();
+                    case R.id.radioAcademicTemplate:
+                        fragment = new AcademicTemplateFragment();
+                        break;
                 }
+                if (fragment != null) {
+                    // Reemplazar el fragmento actual en el contenedor
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(fragmentContainer.getId(), fragment);
+                    transaction.commit();
+                }
+
+
             }
         });
+
+        templateSelection.check(R.id.radioGenericTemplate);
+
+
 
         return root;
     }
