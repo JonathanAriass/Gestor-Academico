@@ -3,6 +3,7 @@ package com.example.gestoracademico;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gestoracademico.ui.ui.filexplorer.FileExplorerFragment;
@@ -54,12 +57,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             public void onClick(View v) {
                 if(selectedFile.isDirectory()){
                     Intent intent = new Intent(context, FileExplorerFragment.class);
+                    FileExplorerFragment fragment = new FileExplorerFragment();
+                    Bundle bundle = new Bundle();
                     String path = selectedFile.getAbsolutePath();
                     intent.putExtra("path",path);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     // TODO: como se puede hacer que cuando se haga click en una linea se abra dicha
                     //       parte con la nueva informacion.
+
                 }else{
                     //open thte file
                     try {

@@ -47,8 +47,20 @@ public class FileExplorerFragment extends Fragment {
 
         String path = Environment.getExternalStorageDirectory().getPath();
 
+        System.out.println(path);
+
         File direction = new File(path);
         File[] filesAndFolders = direction.listFiles();
+
+        if (checkPermission()){
+            //permission allowed
+            Toast.makeText(getContext(),"Con permisos",Toast.LENGTH_SHORT).show();
+        }else{
+            //permission not allowed
+            requestPermission();
+            Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
+
+        }
 
         if(filesAndFolders==null || filesAndFolders.length ==0){
             noFilesText.setVisibility(View.VISIBLE);
@@ -61,33 +73,26 @@ public class FileExplorerFragment extends Fragment {
             return root;
         }
 
-//        if(checkPermission()){
-//            //permission allowed
-//            Toast.makeText(getContext(),"Con permisos",Toast.LENGTH_SHORT).show();
-//        }else{
-//            //permission not allowed
-//            requestPermission();
-//            Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
-//
-//        }
+
 
     }
 
 
-//    private boolean checkPermission(){
-//        int result = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//        if(result == PackageManager.PERMISSION_GRANTED){
-//            return true;
-//        }else
-//            return false;
-//    }
-//
-//    private void requestPermission(){
-//        if(ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-//            Toast.makeText(getContext(),"Storage permission is requires,please allow from settings",Toast.LENGTH_SHORT).show();
-//        }else
-//            ActivityCompat.requestPermissions((Activity) getContext(),new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},111);
-//    }
+    private boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(result == PackageManager.PERMISSION_GRANTED){
+            return true;
+        }else
+            return false;
+    }
+
+    private void requestPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Toast.makeText(getContext(), "Storage permission is requires,please allow from settings", Toast.LENGTH_SHORT).show();
+        } else {
+            ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
+        }
+    }
 
 
     public RecyclerView getFileList() {
