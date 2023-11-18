@@ -58,8 +58,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                     intent.putExtra("path",path);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-
-
+                    // TODO: como se puede hacer que cuando se haga click en una linea se abra dicha
+                    //       parte con la nueva informacion.
                 }else{
                     //open thte file
                     try {
