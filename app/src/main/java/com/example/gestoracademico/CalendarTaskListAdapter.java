@@ -45,6 +45,9 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 System.out.println("holi");
+                /** TODO: Como se podria obtener el id del elemento del recyclerview que esta
+                /*        siendo accionado para eliminar la tarea de la base de datos.
+                 */
             }
         });
 
