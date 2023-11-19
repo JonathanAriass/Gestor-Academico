@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.example.gestoracademico.R;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -62,6 +63,10 @@ public class GenericTemplateFragment extends Fragment {
                     File file = new File(dir, fileName);
                     PdfWriter.getInstance(document, new FileOutputStream(file));
                     document.open();
+
+                    Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD | Font.UNDERLINE);
+                    Paragraph titleParagraph = new Paragraph(title.getText().toString(), titleFont);
+                    document.add(titleParagraph);
 
                     // Agregar contenido al documento
                     Paragraph contentParagraph = new Paragraph(content.getText().toString());

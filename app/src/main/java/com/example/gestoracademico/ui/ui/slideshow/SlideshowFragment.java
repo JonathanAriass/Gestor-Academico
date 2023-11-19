@@ -28,9 +28,6 @@ import java.io.FileOutputStream;
 public class SlideshowFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
-
-
-
     private EditText subject;
 
     private Button generateButton;

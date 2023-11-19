@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.example.gestoracademico.R;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -28,6 +29,8 @@ public class AcademicTemplateFragment extends Fragment {
     private EditText content;
 
     private EditText asignatura;
+
+    private EditText tema;
 
     private EditText fecha;
 
@@ -51,10 +54,50 @@ public class AcademicTemplateFragment extends Fragment {
 
         asignatura = view.findViewById(R.id.editTextSubject);
 
+        tema = view.findViewById(R.id.editTextTheme);
+
         fecha = view.findViewById(R.id.editTextDate);
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String fileName = title.getText().toString() + ".pdf";
+                Document document = new Document();
+
+                try {
+                    String carpeta = "/pdf";
+                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + carpeta;
+
+                    // Directorio interno donde se guardará el archivo
+                    File dir = new File(path);
+                    if(!dir.exists()){
+                        dir.mkdirs();
+                    }
+
+                    // Ruta completa del archivo
+                    File file = new File(dir, fileName);
+                    PdfWriter.getInstance(document, new FileOutputStream(file));
+                    document.open();
+
+                    Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD | Font.UNDERLINE);
+                    Font contentFont = new Font(Font.FontFamily.TIMES_ROMAN, 15);
+                    Paragraph subjectParagraph = new Paragraph("Asignatura: "+ asignatura.getText().toString(), titleFont);
+                    document.add(subjectParagraph);
+
+                    Paragraph themeParagraph = new Paragraph("Tema: "+ tema.getText().toString(), titleFont);
+                    document.add(themeParagraph);
+
+                    Paragraph dateParagraph = new Paragraph("Fecha: "+ fecha.getText().toString(), titleFont);
+                    document.add(dateParagraph);
+
+                    // Agregar contenido al documento
+                    Paragraph contentParagraph = new Paragraph(content.getText().toString(),contentFont);
+                    document.add(contentParagraph);
+
+                    document.close();
+                } catch (DocumentException | FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
