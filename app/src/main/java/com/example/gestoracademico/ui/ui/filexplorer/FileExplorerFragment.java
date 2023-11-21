@@ -47,7 +47,14 @@ public class FileExplorerFragment extends Fragment {
 
         String path = Environment.getExternalStorageDirectory().getPath();
 
-        System.out.println(path);
+        //Recupero el bundle con getArguments()
+        Bundle bundle = getArguments();
+        if (bundle != null)
+        {
+            //Si no se recibe una key path, el que ya está en la inicialización  de path.
+            path = getArguments().getString("path", path);
+        }
+
 
         File direction = new File(path);
         File[] filesAndFolders = direction.listFiles();

@@ -27,5 +27,14 @@
         android:id="@+id/nav_explorer"
         android:name="com.example.gestoracademico.ui.ui.filexplorer.FileExplorerFragment"
         android:label="@string/file_explorer"
-        tools:layout="@layout/fragment_file_explorer" />
+        tools:layout="@layout/fragment_file_explorer">
+        <action
+        android:id="@+id/action_fileExporer_to_fileExporer"
+        app:destination="@+id/nav_explorer"
+        />
+    </fragment>
+
+
+
+
 </navigation>

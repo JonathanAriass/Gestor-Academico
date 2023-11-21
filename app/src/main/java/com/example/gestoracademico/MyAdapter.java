@@ -17,6 +17,7 @@ import java.io.File;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gestoracademico.ui.ui.filexplorer.FileExplorerFragment;
@@ -56,25 +57,38 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 if(selectedFile.isDirectory()){
-                    Intent intent = new Intent(context, FileExplorerFragment.class);
-                    FileExplorerFragment fragment = new FileExplorerFragment();
-                    Bundle bundle = new Bundle();
-                    String path = selectedFile.getAbsolutePath();
-                    intent.putExtra("path",path);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                    // TODO: como se puede hacer que cuando se haga click en una linea se abra dicha
-                    //       parte con la nueva informacion.
+//                    Intent intent = new Intent(context, FileExplorerFragment.class);
+//                    FileExplorerFragment fragment = new FileExplorerFragment();
+//                    Bundle bundle = new Bundle();
+//                    String path = selectedFile.getAbsolutePath();
+//                    intent.putExtra("path",path);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(intent);
+//                    // TODO: como se puede hacer que cuando se haga click en una linea se abra dicha
+//                    //       parte con la nueva informacion.
+
+                    Bundle args = new Bundle();
+                    //Añado la variable path al bundle. O las que hicieran falta
+                    args.putString("files", "no");
+                    args.putString("path", selectedFile.getAbsolutePath());
+                    //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
+                    Navigation.findNavController(v).navigate(R.id.action_fileExporer_to_fileExporer, args);
 
                 }else{
                     //open thte file
                     try {
-                        Intent intent = new Intent();
-                        intent.setAction(android.content.Intent.ACTION_VIEW);
-                        String type = "image/*";
-                        intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+//                        Intent intent = new Intent();
+//                        intent.setAction(android.content.Intent.ACTION_VIEW);
+//                        String type = "image/*";
+//                        intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        context.startActivity(intent);
+                        Bundle args = new Bundle();
+                        args.putString("path", selectedFile.getAbsolutePath());
+                        args.putString("files", "yes");
+
+                        Navigation.findNavController(v).navigate(R.id.action_fileExporer_to_fileExporer, args);
+
                     }catch (Exception e){
                         Toast.makeText(context.getApplicationContext(),"Cannot open the file",Toast.LENGTH_SHORT).show();
                     }
