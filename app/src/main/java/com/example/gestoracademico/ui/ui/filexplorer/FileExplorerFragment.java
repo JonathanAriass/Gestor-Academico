@@ -45,6 +45,16 @@ public class FileExplorerFragment extends Fragment {
         fileList = root.findViewById(R.id.files_recycler_view);
         noFilesText = root.findViewById(R.id.nofiles_textview);
 
+        if (checkPermission()){
+            //permission allowed
+            Toast.makeText(getContext(),"Con permisos",Toast.LENGTH_SHORT).show();
+        }else{
+            //permission not allowed
+            requestPermission();
+            Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
+
+        }
+
         String path = Environment.getExternalStorageDirectory().getPath();
 
         //Recupero el bundle con getArguments()
@@ -58,16 +68,6 @@ public class FileExplorerFragment extends Fragment {
 
         File direction = new File(path);
         File[] filesAndFolders = direction.listFiles();
-
-        if (checkPermission()){
-            //permission allowed
-            Toast.makeText(getContext(),"Con permisos",Toast.LENGTH_SHORT).show();
-        }else{
-            //permission not allowed
-            requestPermission();
-            Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
-
-        }
 
         if(filesAndFolders==null || filesAndFolders.length ==0){
             noFilesText.setVisibility(View.VISIBLE);

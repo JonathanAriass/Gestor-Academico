@@ -83,6 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 //                        intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
 //                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                        context.startActivity(intent);
+                        String ar = String.valueOf(Uri.parse(selectedFile.getAbsolutePath()));
                         Bundle args = new Bundle();
                         args.putString("path", selectedFile.getAbsolutePath());
                         args.putString("files", "yes");
