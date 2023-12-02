@@ -62,6 +62,7 @@
     <string name="menu_calendar">Calendario</string>
     <string name="menu_export">Exportacion</string>
     <string name="file_explorer">Explorador</string>
+    <string name="pdfViewer">Visualizador de Pdf</string>
 
     <!-- File Explorer   -->
     <string name="no_files">Sin archivos encontrados</string>

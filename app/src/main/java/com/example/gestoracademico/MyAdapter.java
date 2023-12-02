@@ -88,7 +88,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                         args.putString("path", selectedFile.getAbsolutePath());
                         args.putString("files", "yes");
 
-                        Navigation.findNavController(v).navigate(R.id.action_fileExporer_to_fileExporer, args);
+                        Navigation.findNavController(v).navigate(R.id.action_fileExporer_to_pdfViewer, args);
 
                     }catch (Exception e){
                         Toast.makeText(context.getApplicationContext(),"Cannot open the file",Toast.LENGTH_SHORT).show();
@@ -101,35 +101,40 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             @Override
             public boolean onLongClick(View v) {
 
-                PopupMenu popupMenu = new PopupMenu(context,v);
-                popupMenu.getMenu().add("DELETE");
-                popupMenu.getMenu().add("MOVE");
-                popupMenu.getMenu().add("RENAME");
+                if(!selectedFile.isDirectory()){
+                    PopupMenu popupMenu = new PopupMenu(context,v);
+                    popupMenu.getMenu().add("DELETE");
+                    popupMenu.getMenu().add("MOVE");
+                    popupMenu.getMenu().add("RENAME");
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getTitle().equals("DELETE")){
-                            boolean deleted = selectedFile.delete();
-                            if(deleted){
-                                Toast.makeText(context.getApplicationContext(),"DELETED ",Toast.LENGTH_SHORT).show();
-                                v.setVisibility(View.GONE);
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            if(item.getTitle().equals("DELETE")){
+                                boolean deleted = selectedFile.delete();
+                                if(deleted){
+                                    Toast.makeText(context.getApplicationContext(),"DELETED ",Toast.LENGTH_SHORT).show();
+                                    v.setVisibility(View.GONE);
+                                }
                             }
-                        }
-                        if(item.getTitle().equals("MOVE")){
-                            Toast.makeText(context.getApplicationContext(),"MOVED ",Toast.LENGTH_SHORT).show();
+                            if(item.getTitle().equals("MOVE")){
 
-                        }
-                        if(item.getTitle().equals("RENAME")){
-                            Toast.makeText(context.getApplicationContext(),"RENAME ",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context.getApplicationContext(),"MOVED ",Toast.LENGTH_SHORT).show();
 
-                        }
-                        return true;
-                    }
-                });
+                            }
+                            if(item.getTitle().equals("RENAME")){
+                                Toast.makeText(context.getApplicationContext(),"RENAME ",Toast.LENGTH_SHORT).show();
 
-                popupMenu.show();
+                            }
+                            return true;
+                        }
+                    });
+
+                    popupMenu.show();
+                    return true;
+                }
                 return true;
+
             }
         });
 
