@@ -103,28 +103,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
                 if(!selectedFile.isDirectory()){
                     PopupMenu popupMenu = new PopupMenu(context,v);
-                    popupMenu.getMenu().add("DELETE");
-                    popupMenu.getMenu().add("MOVE");
-                    popupMenu.getMenu().add("RENAME");
+                    popupMenu.getMenu().add("Eliminar");
+                    popupMenu.getMenu().add("Compartir");
 
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            if(item.getTitle().equals("DELETE")){
+                            if(item.getTitle().equals("Eliminar")){
                                 boolean deleted = selectedFile.delete();
                                 if(deleted){
                                     Toast.makeText(context.getApplicationContext(),"DELETED ",Toast.LENGTH_SHORT).show();
                                     v.setVisibility(View.GONE);
                                 }
                             }
-                            if(item.getTitle().equals("MOVE")){
+                            if(item.getTitle().equals("Compartir")){
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_SEND);
+                                intent.setType("text/plain");
+                                Toast.makeText(context.getApplicationContext(),"SHARED",Toast.LENGTH_SHORT).show();
 
-                                Toast.makeText(context.getApplicationContext(),"MOVED ",Toast.LENGTH_SHORT).show();
-
-                            }
-                            if(item.getTitle().equals("RENAME")){
-                                Toast.makeText(context.getApplicationContext(),"RENAME ",Toast.LENGTH_SHORT).show();
-
+                                if(intent.resolveActivity(context.getPackageManager()) != null){
+                                    context.startActivity(intent);
+                                }
                             }
                             return true;
                         }
