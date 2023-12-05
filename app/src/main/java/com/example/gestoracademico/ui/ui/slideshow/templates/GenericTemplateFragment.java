@@ -1,9 +1,11 @@
 package com.example.gestoracademico.ui.ui.slideshow.templates;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,8 @@ public class GenericTemplateFragment extends Fragment {
 
     private EditText content;
 
+    private EditText category;
+
     public GenericTemplateFragment() {
         // Required empty public constructor
     }
@@ -43,15 +47,20 @@ public class GenericTemplateFragment extends Fragment {
         title = view.findViewById(R.id.editTextTitle);
 
         content = view.findViewById(R.id.editTextContent);
+
+        category = view.findViewById(R.id.editTextCategoria);
+
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String fileName = title.getText().toString() + ".pdf";
                 Document document = new Document();
 
+                String userFolder = category.getText().toString().toUpperCase();;
+
                 try {
                     String carpeta = "/pdf";
-                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + carpeta;
+                    String path = getContext().getExternalFilesDir("") + carpeta +"/"+ userFolder;
 
                     // Directorio interno donde se guardará el archivo
                     File dir = new File(path);
@@ -73,11 +82,21 @@ public class GenericTemplateFragment extends Fragment {
                     document.add(contentParagraph);
 
                     document.close();
+
+                    showToast("Archivo creado correctamente en: " + file.getAbsolutePath());
+
                 } catch (DocumentException | FileNotFoundException e) {
                     e.printStackTrace();
+                    showToast("Error al crear el archivo PDF");
                 }
             }
         });
         return view;
     }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+
 }

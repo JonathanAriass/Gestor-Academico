@@ -12,6 +12,12 @@
            >
 
         <EditText
+                android:id="@+id/editTextCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Carpeta/Categoria"
+                android:inputType="textMultiLine"/>
+        <EditText
                 android:id="@+id/editTextTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -24,15 +30,15 @@
                 android:layout_height="wrap_content"
                 android:hint="Contenido del PDF"
                 android:inputType="textMultiLine" />
+        <Button
+                android:id="@+id/buttonGeneratePDF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Generar PDF"/>
 
     </LinearLayout>
 
     <!-- Botón para generar el PDF -->
-    <Button
-            android:id="@+id/buttonGeneratePDF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Generar PDF" />
 
 </FrameLayout>

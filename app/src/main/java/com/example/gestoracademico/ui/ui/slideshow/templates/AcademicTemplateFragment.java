@@ -34,6 +34,8 @@ public class AcademicTemplateFragment extends Fragment {
 
     private EditText fecha;
 
+    private EditText category;
+
 
     public AcademicTemplateFragment() {
         // Required empty public constructor
@@ -57,21 +59,28 @@ public class AcademicTemplateFragment extends Fragment {
         tema = view.findViewById(R.id.editTextTheme);
 
         fecha = view.findViewById(R.id.editTextDate);
+
+        category = view.findViewById(R.id.editTextCategoria);
+
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String fileName = title.getText().toString() + ".pdf";
                 Document document = new Document();
 
+                String userFolder = category.getText().toString().toUpperCase();
+
+
                 try {
                     String carpeta = "/pdf";
-                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + carpeta;
-
+                    String path = getContext().getExternalFilesDir("") + carpeta +"/"+ userFolder;
                     // Directorio interno donde se guardará el archivo
                     File dir = new File(path);
                     if(!dir.exists()){
                         dir.mkdirs();
                     }
+
+                    String pathCompleto;
 
                     // Ruta completa del archivo
                     File file = new File(dir, fileName);
