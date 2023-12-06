@@ -6,17 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".ui.ui.slideshow.SlideshowFragment">
 
-    <TextView
-        android:id="@+id/text_slideshow"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="75dp"
+        tools:context=".MainActivity">
+
+        <RadioGroup
+                android:id="@+id/templateSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+            <RadioButton
+                    android:id="@+id/radioGenericTemplate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Plantilla Genérica"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            <RadioButton
+                    android:id="@+id/radioAcademicTemplate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Plantilla Académica"
+                    app:layout_constraintEnd_toEndOf="parent" />
+        </RadioGroup>
+
+        <FrameLayout
+                android:id="@+id/templateContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
