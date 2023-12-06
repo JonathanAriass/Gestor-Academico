@@ -61,6 +61,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_calendar">Calendario</string>
     <string name="menu_export">Exportacion</string>
+
     <string name="file_explorer">Explorador</string>
     <string name="pdfViewer">Visualizador de Pdf</string>
 
