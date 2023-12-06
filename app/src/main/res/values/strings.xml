@@ -61,6 +61,13 @@
     <string name="menu_home">Home</string>
     <string name="menu_calendar">Calendario</string>
     <string name="menu_export">Exportacion</string>
+
+    <string name="file_explorer">Explorador</string>
+    <string name="pdfViewer">Visualizador de Pdf</string>
+
+    <!-- File Explorer   -->
+    <string name="no_files">Sin archivos encontrados</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
