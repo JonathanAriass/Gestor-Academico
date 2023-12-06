@@ -55,7 +55,8 @@ public class FileExplorerFragment extends Fragment {
 
         }
 
-        String path = Environment.getExternalStorageDirectory().getPath();
+        //String path = Environment.getExternalStorageDirectory().getPath();
+        String path = getContext().getExternalFilesDir("") + "/pdf";
 
         //Recupero el bundle con getArguments()
         Bundle bundle = getArguments();
@@ -67,6 +68,11 @@ public class FileExplorerFragment extends Fragment {
 
 
         File direction = new File(path);
+        if(!direction.exists()){
+            direction.mkdirs();
+        }
+
+       // File direction = new File(path);
         File[] filesAndFolders = direction.listFiles();
 
         if(filesAndFolders==null || filesAndFolders.length ==0){
