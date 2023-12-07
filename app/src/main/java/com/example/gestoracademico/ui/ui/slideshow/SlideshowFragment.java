@@ -52,15 +52,12 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Fragment fragment = null;
-                switch (checkedId) {
-                    case R.id.radioGenericTemplate:
-                        fragment = new GenericTemplateFragment();
-                        break;
-
-                    case R.id.radioAcademicTemplate:
-                        fragment = new AcademicTemplateFragment();
-                        break;
+                if (R.id.radioGenericTemplate == checkedId) {
+                    fragment = new GenericTemplateFragment();
+                } else if (R.id.radioAcademicTemplate == checkedId) {
+                    fragment = new AcademicTemplateFragment();
                 }
+
                 if (fragment != null) {
                     // Reemplazar el fragmento actual en el contenedor
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
