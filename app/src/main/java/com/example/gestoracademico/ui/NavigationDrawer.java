@@ -18,6 +18,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gestoracademico.databinding.ActivityNavigationDrawerBinding;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 public class NavigationDrawer extends AppCompatActivity {
 
@@ -44,7 +51,7 @@ public class NavigationDrawer extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_explorer)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation_drawer);
@@ -66,8 +73,11 @@ public class NavigationDrawer extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-        public void crearNuevaTarea(View view) {
-        Intent intent=new Intent(NavigationDrawer.this, NewTask.class);
-        startActivityForResult(intent, 1);
+    public void crearNuevaTarea(View view) {
+        Bundle args = new Bundle();
+        //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
+        Navigation.findNavController(view).navigate(R.id.action_home_to_newTask, args);
     }
+
+
 }
