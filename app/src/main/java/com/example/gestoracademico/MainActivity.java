@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
 import android.widget.EditText;
 
@@ -49,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void saveTask(int indexTask){
+
         Log.i("VALUES:", descriptionInput.getText().toString());
-        Task task = new Task(descriptionInput.getText().toString(), fechaInput.getText().toString(), "");
+        Task task = new Task(9999, descriptionInput.getText().toString(), fechaInput.getText().toString());
+
+
+
+//        db.getTaskDAO().add(task);
 
         Intent intentResultado= new Intent();
         intentResultado.putExtra(TaskRecycler.TASK_MODIFIED, task);

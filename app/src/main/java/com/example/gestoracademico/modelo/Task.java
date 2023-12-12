@@ -4,23 +4,36 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "tasks")
 public class Task implements Parcelable {
+
+    @PrimaryKey @NonNull
+    public int id;
+
 
     private String descripcion;
     private String fecha;
 
     private String imagen;
 
-    public Task(String descripcion, String fecha, String imagen) {
+//    public Task(int id, String descripcion, String fecha, String imagen) {
+//        this.id = id;
+//        this.descripcion = descripcion;
+//        this.fecha = fecha;
+//        this.imagen = imagen;
+//    }
+
+    public Task(int id, String descripcion, String fecha) {
+        this.id = id;
         this.descripcion = descripcion;
         this.fecha = fecha;
-        this.imagen = imagen;
     }
 
-    public Task(String descripcion, String fecha) {
-        this.descripcion = descripcion;
-        this.fecha = fecha;
+    public Task() {
+
     }
 
     protected Task(Parcel in) {
@@ -77,4 +90,14 @@ public class Task implements Parcelable {
             return new Task[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", descripcion='" + descripcion + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", imagen='" + imagen + '\'' +
+                '}';
+    }
 }
