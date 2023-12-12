@@ -1,16 +1,24 @@
 package com.example.gestoracademico;
 
+import static java.security.AccessController.getContext;
+
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -51,7 +59,7 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
             }
         });
 
-        return new TaskViewHolder(itemView);
+        return new TaskViewHolder(itemView, parent.getContext());
     }
 
     @Override
@@ -70,6 +78,10 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
         void onItemClick(Task item);
     }
 
+    public void removeItem(int position) {
+        listaTareas.remove(position);
+        notifyItemRemoved(position);
+    }
 
 
     /**
@@ -81,12 +93,15 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
         private TextView fecha;
         //private ImageView imagen;
 
-        public TaskViewHolder(View itemView) {
+        private Context context;
+
+        public TaskViewHolder(View itemView, Context context) {
             super(itemView);
 
             descripcion= (TextView)itemView.findViewById(R.id.descripcionTareaCalendar);
             fecha= (TextView)itemView.findViewById(R.id.fechaTareaCalendar);
            // imagen= (ImageView)itemView.findViewById(R.id.imagen);
+            context=context;
         }
 
 
@@ -97,13 +112,28 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
             fecha.setText(tarea.getFecha().toString());
 
             //Picasso.get().load(tarea.getImagen()).into(imagen);
+            FloatingActionButton btnDelete = itemView.findViewById(R.id.eliminarTarea);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
+                    Log.i("CLICKITEM", tarea.toString());
+                    // Se debera de abrir el modo consulta
+//                    Bundle args = new Bundle();
+                    AppDatabase db = AppDatabase.getDatabase(context);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override public void onClick(View v) {
-//                    Log.i("Hola", "Hola");
-//                    listener.onItemClick(tarea);
-//                }
-//            });
+                    db.getTaskDAO().delete(tarea);
+                    // Mostar snackbar con mensaje de creacion de tarea correcta
+//                    Toast.makeText(getContext(), "Tarea creada correctamente", Toast.LENGTH_SHORT).show();
+//                    args.putString("titulo", tarea.getDescripcion());
+                    //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
+//                    Navigation.findNavController(v).navigate(R.id.action_home_to_consultaTask, args);
+                    int adapterPosition = getAdapterPosition();
+                    if (adapterPosition != RecyclerView.NO_POSITION) {
+                        removeItem(adapterPosition);
+                    }
+
+                }
+            });
         }
     }
 }
