@@ -22,7 +22,13 @@ public interface TaskDAO {
     @Query("SELECT * FROM tasks")
     List<Task> getAll();
 
+    @Query("SELECT * FROM tasks where fecha = :date")
+    List<Task> getByDate(String date);
+
     @Query("SELECT id from tasks ORDER BY id DESC LIMIT 1")
     int getLastId();
+
+    @Query("DELETE FROM tasks")
+    void deleteAll();
 
 }

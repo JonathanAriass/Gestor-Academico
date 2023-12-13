@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,8 +104,11 @@ public class AcademicTemplateFragment extends Fragment {
                     document.add(contentParagraph);
 
                     document.close();
+
+                    showToast("Archivo creado correctamente en: " + file.getAbsolutePath());
                 } catch (DocumentException | FileNotFoundException e) {
                     e.printStackTrace();
+                    showToast("Error al crear el archivo PDF");
                 }
 
             }
@@ -112,4 +116,9 @@ public class AcademicTemplateFragment extends Fragment {
 
         return view;
     }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+
 }

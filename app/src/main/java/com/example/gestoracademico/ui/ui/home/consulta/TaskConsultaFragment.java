@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.gestoracademico.R;
 
@@ -18,14 +19,11 @@ import com.example.gestoracademico.R;
  */
 public class TaskConsultaFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_TITULO = "titulo";
+    private static final String ARG_DATE = "fecha";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String titulo;
+    private String fecha;
 
     public TaskConsultaFragment() {
         // Required empty public constructor
@@ -35,8 +33,8 @@ public class TaskConsultaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString("titulo");
-//            mParam2 = getArguments().getString(ARG_PARAM2);
+            titulo = getArguments().getString(ARG_TITULO);
+            fecha = getArguments().getString(ARG_DATE);
         }
     }
 
@@ -44,9 +42,41 @@ public class TaskConsultaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_consulta, container, false);
-//        String titulo = savedInstanceState.getString("titulo");
-        Log.i("TITULOTAREA", mParam1);
+        TextView tituloText = view.findViewById(R.id.textView);
+        tituloText.setText(titulo);
+        adaptDate(view);
         // Inflate the layout for this fragment
         return view;
+    }
+
+    /**
+     * Metodo que cambiar el color de la fecha dependiendo de la prioridad
+     * que tenga asignada:
+     *  - Rojo: alta
+     *  - Amarillo: media
+     *  - Verde: baja
+     */
+    private void setPriorityColor() {
+
+    }
+
+    /**
+     * Metodo que adapta la fecha para mostrarlo en el visor de la fecha
+     * el cual muestra la informacion con el siguiente formato:
+     *  - Dia
+     *  - Mes
+     *
+     */
+    private void adaptDate(View view) {
+        Log.i("FECHAS", fecha);
+        String[] dateParts = fecha.split("/");
+        String[] mesesAbreviados = {"ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
+
+        String dia = dateParts[0];
+        String mes = mesesAbreviados[Integer.parseInt(dateParts[1])-1];
+        TextView diaText = view.findViewById(R.id.diaTxt);
+        diaText.setText(dia);
+        TextView mesText = view.findViewById(R.id.mesTxt);
+        mesText.setText(mes);
     }
 }
