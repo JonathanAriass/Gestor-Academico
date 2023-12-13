@@ -74,7 +74,8 @@ public class HomeFragment extends Fragment {
         View root  = inflater.inflate(R.layout.fragment_home, container, false);
 
         appDatabase = AppDatabase.getDatabase(getContext());
-        loadTasks();
+//        appDatabase.getTaskDAO().deleteAll();
+//        loadTasks();
 
 //        binding = FragmentHomeBinding.inflate(inflater, container, false);
 //        View root = binding.getRoot();

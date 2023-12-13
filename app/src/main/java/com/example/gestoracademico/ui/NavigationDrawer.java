@@ -73,9 +73,10 @@ public class NavigationDrawer extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-        public void crearNuevaTarea(View view) {
-        Intent intent=new Intent(NavigationDrawer.this, NewTask.class);
-        startActivityForResult(intent, 1);
+    public void crearNuevaTarea(View view) {
+        Bundle args = new Bundle();
+        //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
+        Navigation.findNavController(view).navigate(R.id.action_home_to_newTask, args);
     }
 
 

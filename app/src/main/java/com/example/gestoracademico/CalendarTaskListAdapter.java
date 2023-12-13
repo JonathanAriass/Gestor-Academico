@@ -30,9 +30,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
     private final OnItemClickListener listener;
     private FloatingActionButton deleteButton;
 
-
-
-
     public CalendarTaskListAdapter(List<Task> tareas, OnItemClickListener listener) {
         this.listaTareas = tareas;
         this.listener = listener != null ? listener : null;
@@ -91,7 +88,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
         private TextView descripcion;
         private TextView fecha;
-        //private ImageView imagen;
 
         private Context context;
 
@@ -100,8 +96,7 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
             descripcion= (TextView)itemView.findViewById(R.id.descripcionTareaCalendar);
             fecha= (TextView)itemView.findViewById(R.id.fechaTareaCalendar);
-           // imagen= (ImageView)itemView.findViewById(R.id.imagen);
-            context=context;
+            this.context = context;
         }
 
 
@@ -111,27 +106,31 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
             fecha.setText(tarea.getFecha().toString());
 
-            //Picasso.get().load(tarea.getImagen()).into(imagen);
             FloatingActionButton btnDelete = itemView.findViewById(R.id.eliminarTarea);
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
-                    Log.i("CLICKITEM", tarea.toString());
-                    // Se debera de abrir el modo consulta
-//                    Bundle args = new Bundle();
                     AppDatabase db = AppDatabase.getDatabase(context);
-
                     db.getTaskDAO().delete(tarea);
-                    // Mostar snackbar con mensaje de creacion de tarea correcta
-//                    Toast.makeText(getContext(), "Tarea creada correctamente", Toast.LENGTH_SHORT).show();
-//                    args.putString("titulo", tarea.getDescripcion());
-                    //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
-//                    Navigation.findNavController(v).navigate(R.id.action_home_to_consultaTask, args);
+                    Toast.makeText(context, "Tarea eliminada correctamente", Toast.LENGTH_SHORT).show();
                     int adapterPosition = getAdapterPosition();
                     if (adapterPosition != RecyclerView.NO_POSITION) {
                         removeItem(adapterPosition);
                     }
 
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
+                    Log.i("CLICKITEM", tarea.toString());
+                    // Se debera de abrir el modo consulta
+                    Bundle args = new Bundle();
+
+                    args.putString("titulo", tarea.getDescripcion());
+                    args.putString("fecha", tarea.getFecha());
+                    //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
+                    Navigation.findNavController(v).navigate(R.id.action_calendar_to_consultaTask, args);
                 }
             });
         }
