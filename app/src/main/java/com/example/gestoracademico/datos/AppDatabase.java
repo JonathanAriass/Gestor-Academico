@@ -7,9 +7,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.gestoracademico.modelo.Document;
 import com.example.gestoracademico.modelo.Task;
 
-@Database(version=1, entities = {Task.class})
+@Database(version=1, entities = {Task.class, Document.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TaskDAO getTaskDAO();
@@ -27,7 +28,6 @@ public abstract class AppDatabase extends RoomDatabase {
              */
             db = Room.databaseBuilder(applicationContext, AppDatabase.class, DB_NOMBRE)
                     .allowMainThreadQueries()
-                    .createFromAsset("dbinicial.db")
                     .build();
         }
         return db;

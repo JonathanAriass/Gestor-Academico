@@ -4,20 +4,27 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.Nullable;
+
 @Entity(tableName = "tasks")
 public class Task implements Parcelable {
+
+    private String descripcion;
+    private String fecha;
+    private int prioridad;
+    private int fk_pdf;
+
 
     @PrimaryKey @NonNull
     public int id;
 
 
-    private String descripcion;
-    private String fecha;
 
-    private String imagen;
+
 
 //    public Task(int id, String descripcion, String fecha, String imagen) {
 //        this.id = id;
@@ -26,10 +33,13 @@ public class Task implements Parcelable {
 //        this.imagen = imagen;
 //    }
 
-    public Task(int id, String descripcion, String fecha) {
+    public Task(int id, String descripcion, String fecha, int prioridad, int fk_pdf) {
         this.id = id;
         this.descripcion = descripcion;
         this.fecha = fecha;
+
+        this.prioridad = prioridad;
+        this.fk_pdf = fk_pdf;
     }
 
     public Task() {
@@ -39,7 +49,8 @@ public class Task implements Parcelable {
     protected Task(Parcel in) {
         descripcion = in.readString();
         fecha = in.readString();
-        imagen = in.readString();
+        prioridad = in.readInt();
+        fk_pdf = in.readInt();
     }
 
 
@@ -59,12 +70,20 @@ public class Task implements Parcelable {
         this.fecha = fecha;
     }
 
-    public String getImagen() {
-        return imagen;
+    public int getFk_pdf() {
+        return fk_pdf;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setFk_pdf(int fk_pdf) {
+        this.fk_pdf = fk_pdf;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
     }
 
     @Override
@@ -76,7 +95,9 @@ public class Task implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(descripcion);
         dest.writeString(fecha);
-        dest.writeString(imagen);
+        dest.writeInt(prioridad);
+        dest.writeInt(fk_pdf);
+
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -97,7 +118,8 @@ public class Task implements Parcelable {
                 "id=" + id +
                 ", descripcion='" + descripcion + '\'' +
                 ", fecha='" + fecha + '\'' +
-                ", imagen='" + imagen + '\'' +
+                ", prioridad=" + prioridad +
+                ", fk_pdf=" + fk_pdf +
                 '}';
     }
 }
