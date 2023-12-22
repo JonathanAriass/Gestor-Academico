@@ -6,10 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
             android:layout_height="match_parent"
            >
 
@@ -30,42 +27,74 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Carpeta/Categoria"
-                        android:inputType="textMultiLine"/>
+                        android:inputType="textMultiLine"
+                        android:autoSizeTextType="uniform"/>
 
                 <EditText
                         android:id="@+id/editTextTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Título del PDF"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:autoSizeTextType="uniform"/>
 
                 <EditText
                         android:id="@+id/editTextSubject"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Asignatura"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:autoSizeTextType="uniform"/>
 
                 <EditText
                         android:id="@+id/editTextTheme"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Tema"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:autoSizeTextType="uniform"/>
 
                 <EditText
                         android:id="@+id/editTextDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Fecha"
-                        android:inputType="date"/>
+                        android:inputType="date"
+                        android:autoSizeTextType="uniform"/>
 
                 <EditText
                         android:id="@+id/editTextContent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Contenido del PDF"
-                        android:inputType="textMultiLine"/>
+                        android:inputType="textMultiLine"
+                        android:autoSizeTextType="uniform"/>
+
+                <Switch
+                    android:id="@+id/createTaskWithDocument"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
+                    android:text=" Generar Tarea" />
+
+                <EditText
+                    android:id="@+id/titleTaskfromDocument"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Título de la tarea"
+                    android:inputType="text"
+                    android:visibility="invisible"
+                    android:autoSizeTextType="uniform"/>
+
+                <EditText
+                    android:id="@+id/dateTaskfromDocument"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha de la tarea"
+                    android:inputType="date"
+                    android:visibility="invisible"
+                    android:autoSizeTextType="uniform"/>
+
                 <Button
                         android:id="@+id/buttonGeneratePDF"
                         android:layout_width="wrap_content"

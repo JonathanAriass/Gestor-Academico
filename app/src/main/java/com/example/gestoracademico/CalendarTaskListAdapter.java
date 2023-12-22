@@ -47,14 +47,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
                 .inflate(R.layout.linea_recycler_calendar_task, parent, false);
 
         deleteButton = (FloatingActionButton) itemView.findViewById(R.id.eliminarTarea);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                System.out.println("holi");
-                /** TODO: Como se podria obtener el id del elemento del recyclerview que esta
-                /*        siendo accionado para eliminar la tarea de la base de datos.
-                 */
-            }
-        });
 
         return new TaskViewHolder(itemView, parent.getContext());
     }
@@ -110,6 +102,9 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     AppDatabase db = AppDatabase.getDatabase(context);
+                    if(db.getTaskDAO().getTaskWithDocument().contains(tarea)){
+                        db.getFileDAO().deleteByID(tarea.getFk_pdf());
+                    }
                     db.getTaskDAO().delete(tarea);
                     Toast.makeText(context, "Tarea eliminada correctamente", Toast.LENGTH_SHORT).show();
                     int adapterPosition = getAdapterPosition();

@@ -10,6 +10,8 @@ import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 @Entity(tableName = "tasks")
 public class Task implements Parcelable {
 
@@ -122,4 +124,14 @@ public class Task implements Parcelable {
                 ", fk_pdf=" + fk_pdf +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return prioridad == task.prioridad && fk_pdf == task.fk_pdf && id == task.id && Objects.equals(descripcion, task.descripcion) && Objects.equals(fecha, task.fecha);
+    }
+
+
 }

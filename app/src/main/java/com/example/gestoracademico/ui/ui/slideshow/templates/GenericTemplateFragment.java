@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +86,13 @@ public class GenericTemplateFragment extends Fragment {
                     document.close();
 
                     showToast("Archivo creado correctamente en: " + file.getAbsolutePath());
+
+                    //Al crear el pdf se abrirá directamente
+                    Bundle args = new Bundle();
+                    args.putString("path", file.getAbsolutePath());
+                    args.putString("files", "yes");
+
+                    Navigation.findNavController(v).navigate(R.id.action_Exportar_to_pdfViewer, args);
 
                 } catch (DocumentException | FileNotFoundException e) {
                     e.printStackTrace();

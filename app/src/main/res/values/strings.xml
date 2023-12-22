@@ -65,7 +65,10 @@
     <string name="file_explorer">Explorador</string>
     <string name="pdfViewer">Visualizador de Pdf</string>
 
-    <!-- File Explorer   -->
+    <string name="academicTemplate">Plantilla académica</string>
+    <string name="genericTemplate">Plantilla genérica</string>
+
+
     <string name="no_files">Sin archivos encontrados</string>
 
     <!-- TODO: Remove or change this placeholder text -->

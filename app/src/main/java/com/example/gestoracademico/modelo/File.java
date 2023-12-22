@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "document")
-public class Document implements Parcelable {
+public class File implements Parcelable {
 
     @PrimaryKey
     @NonNull
@@ -17,13 +17,13 @@ public class Document implements Parcelable {
     private String titulo;
     private String ruta;
 
-    public Document(int id, String titulo, String ruta) {
+    public File(int id, String titulo, String ruta) {
         this.id = id;
         this.titulo = titulo;
         this.ruta = ruta;
     }
 
-    public Document(Parcel in) {
+    public File(Parcel in) {
         titulo = in.readString();
         ruta = in.readString();
     }
@@ -63,15 +63,15 @@ public class Document implements Parcelable {
         dest.writeString(ruta);
     }
 
-    public static final Creator<Document> CREATOR = new Creator<Document>() {
+    public static final Creator<File> CREATOR = new Creator<File>() {
         @Override
-        public Document createFromParcel(Parcel in) {
-            return new Document(in);
+        public File createFromParcel(Parcel in) {
+            return new File(in);
         }
 
         @Override
-        public Document[] newArray(int size) {
-            return new Document[size];
+        public File[] newArray(int size) {
+            return new File[size];
         }
     };
 
