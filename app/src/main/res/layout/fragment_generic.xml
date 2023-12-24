@@ -5,9 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 xmlns:tools="http://schemas.android.com/tools"
-                 android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  tools:context=".ui.ui.slideshow.templates.GenericTemplateFragment">
 
@@ -36,6 +35,32 @@
                     android:layout_height="wrap_content"
                     android:hint="Contenido del PDF"
                     android:inputType="textMultiLine" />
+
+            <Switch
+                android:id="@+id/createTaskWithDocumentGeneric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="Generar tarea" />
+
+            <EditText
+                android:id="@+id/titleTaskfromDocumentGeneric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Título de la tarea"
+                android:inputType="text"
+                android:visibility="invisible"
+                android:autoSizeTextType="uniform"/>
+
+            <EditText
+                android:id="@+id/dateTaskfromDocumentGeneric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fecha de la tarea"
+                android:inputType="date"
+                android:visibility="invisible"
+                android:autoSizeTextType="uniform"/>
+
             <Button
                     android:id="@+id/buttonGeneratePDF"
                     android:layout_width="wrap_content"
