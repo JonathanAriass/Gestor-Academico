@@ -53,6 +53,16 @@ public class GenericTemplateFragment extends Fragment {
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Validaciones inputs
+                if(title.getText().toString().isEmpty()){
+                    showToast("El campo del titulo no puede ser vacio");
+                    return;
+                }
+                if(content.getText().toString().isEmpty()){
+                    showToast("El campo del contenido no puede ser vacio");
+                    return;
+                }
+
                 String fileName = title.getText().toString() + ".pdf";
                 Document document = new Document();
 
