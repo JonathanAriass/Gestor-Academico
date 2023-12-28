@@ -58,6 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Fecha de la tarea"
+                android:clickable="true"
+                android:maxLines="1"
+                android:focusable="false"
                 android:inputType="date"
                 android:visibility="invisible"
                 android:autoSizeTextType="uniform"/>
@@ -67,12 +70,5 @@
     </ScrollView>
 
     <!-- Botón para generar el PDF -->
-    <Button
-            android:id="@+id/buttonGeneratePDF"
-            android:layout_width="wrap_content"
-            android:layout_height="38dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
-            android:text="Generar PDF"/>
+
 </RelativeLayout>

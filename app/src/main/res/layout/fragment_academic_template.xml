@@ -57,6 +57,9 @@
                         android:layout_height="wrap_content"
                         android:hint="Fecha"
                         android:inputType="date"
+                        android:clickable="true"
+                        android:maxLines="1"
+                        android:focusable="false"
                         android:autoSizeTextType="uniform"/>
 
                 <EditText
@@ -90,6 +93,9 @@
                     android:hint="Fecha de la tarea"
                     android:inputType="date"
                     android:visibility="invisible"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:focusable="false"
                     android:autoSizeTextType="uniform"/>
 
           
@@ -98,14 +104,7 @@
 
     </ScrollView>
 
-        <Button
-                android:id="@+id/buttonGeneratePDF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Generar PDF"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="300dp"/>
+
 
 </RelativeLayout>
 
