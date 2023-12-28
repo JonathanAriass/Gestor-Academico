@@ -92,6 +92,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
                     args.putString("titulo", tarea.getDescripcion());
                     args.putString("fecha", tarea.getFecha());
+                    args.putInt("fileID", tarea.getFk_pdf());
                     //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
                     Navigation.findNavController(v).navigate(R.id.action_home_to_consultaTask, args);
                 }

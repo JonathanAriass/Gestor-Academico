@@ -30,7 +30,7 @@ public class NewTask extends AppCompatActivity {
 
     public void saveTask(View view) {
         AppDatabase db = AppDatabase.getDatabase(this);
-        Task task = new Task(db.getTaskDAO().getLastId() + 1, editDescripcion.getText().toString(), editFecha.getText().toString());
+        Task task = new Task(db.getTaskDAO().getLastId() + 1, editDescripcion.getText().toString(), editFecha.getText().toString(), 0, 0);
 
         db.getTaskDAO().add(task);
 

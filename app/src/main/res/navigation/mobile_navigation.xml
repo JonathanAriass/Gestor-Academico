@@ -39,6 +39,10 @@
         <action
             android:id="@+id/action_consultaTask_to_calendar"
             app:destination="@+id/nav_gallery" />
+        <action
+            android:id="@+id/action_consultaTask_to_pdfViewer"
+            app:destination="@+id/nav_pdfViewer"
+            />
     </fragment>
 
     <fragment
@@ -55,7 +59,12 @@
         android:id="@+id/nav_slideshow"
         android:name="com.example.gestoracademico.ui.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_export"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_slideshow">
+        <action
+            android:id="@+id/action_Exportar_to_pdfViewer"
+            app:destination="@+id/nav_pdfViewer"
+        />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_explorer"
@@ -72,11 +81,38 @@
             />
     </fragment>
 
+<!--    <fragment-->
+<!--        android:id="@+id/nav_academic_template"-->
+<!--        android:name="com.example.gestoracademico.ui.ui.slideshow.templates.AcademicTemplateFragment"-->
+<!--        android:label="@string/academicTemplate"-->
+<!--        tools:layout="@layout/fragment_academic_template">-->
+<!--        <action-->
+<!--            android:id="@+id/action_Academic_to_pdfViewer"-->
+<!--            app:destination="@+id/nav_pdfViewer"-->
+<!--            />-->
+<!--    </fragment>-->
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_generic_template"-->
+<!--        android:name="com.example.gestoracademico.ui.ui.slideshow.templates.GenericTemplateFragment"-->
+<!--        android:label="@string/genericTemplate"-->
+<!--        tools:layout="@layout/fragment_generic">-->
+<!--        <action-->
+<!--            android:id="@+id/action_Generic_to_pdfViewer"-->
+<!--            app:destination="@+id/nav_pdfViewer"-->
+<!--            />-->
+<!--    </fragment>-->
+
     <fragment
         android:id="@+id/nav_pdfViewer"
         android:name="com.example.gestoracademico.ui.ui.pdf.PdfFragment"
         android:label="@string/pdfViewer"
         tools:layout="@layout/fragment_pdf" />
+
+
+
+
 
 
 

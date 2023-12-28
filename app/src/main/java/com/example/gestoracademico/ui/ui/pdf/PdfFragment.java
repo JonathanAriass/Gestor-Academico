@@ -5,19 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.gestoracademico.MyAdapter;
 import com.example.gestoracademico.R;
-import com.example.gestoracademico.databinding.FragmentFileExplorerBinding;
 import com.example.gestoracademico.databinding.FragmentPdfBinding;
-import com.example.gestoracademico.ui.ui.filexplorer.FileExplorerViewModel;
 import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;

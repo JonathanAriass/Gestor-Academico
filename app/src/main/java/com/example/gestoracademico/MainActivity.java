@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public void saveTask(int indexTask){
 
         Log.i("VALUES:", descriptionInput.getText().toString());
-        Task task = new Task(9999, descriptionInput.getText().toString(), fechaInput.getText().toString());
+        Task task = new Task(9999, descriptionInput.getText().toString(), fechaInput.getText().toString(), 0, 0);
 
 
 

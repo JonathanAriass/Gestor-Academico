@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment {
                 String[] data = line.split(";");
                 if (data != null) {
                     if (data.length==3) {
-                        task = new Task(Integer.parseInt(data[0]), data[1], data[2]);
+                        task = new Task(Integer.parseInt(data[0]), data[1], data[2], 0, 0);
                         appDatabase.getTaskDAO().add(task);
                         listaTareas.add(task);
                     }

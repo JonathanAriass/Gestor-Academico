@@ -25,10 +25,16 @@ public interface TaskDAO {
     @Query("SELECT * FROM tasks where fecha = :date")
     List<Task> getByDate(String date);
 
+    @Query("SELECT * FROM tasks where fk_pdf != 0")
+    List<Task> getTaskWithDocument();
+
     @Query("SELECT id from tasks ORDER BY id DESC LIMIT 1")
     int getLastId();
 
     @Query("DELETE FROM tasks")
     void deleteAll();
+
+    @Query("DELETE FROM tasks where fk_pdf = :fileID")
+    void deleteByFileID(int fileID);
 
 }

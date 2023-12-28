@@ -15,19 +15,17 @@ import android.widget.Toast;
 
 import java.io.File;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gestoracademico.ui.ui.filexplorer.FileExplorerFragment;
+import com.example.gestoracademico.datos.AppDatabase;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
+public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapter.ViewHolder>{
 
     Context context;
     File[] filesAndFolders;
 
-    public MyAdapter(Context context, File[] filesAndFolders){
+    public FileExplorerAdapter(Context context, File[] filesAndFolders){
         this.context = context;
         this.filesAndFolders = filesAndFolders;
 
@@ -42,7 +40,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(FileExplorerAdapter.ViewHolder holder, int position) {
 
         File selectedFile = filesAndFolders[position];
         holder.textView.setText(selectedFile.getName());
@@ -57,16 +55,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 if(selectedFile.isDirectory()){
-//                    Intent intent = new Intent(context, FileExplorerFragment.class);
-//                    FileExplorerFragment fragment = new FileExplorerFragment();
-//                    Bundle bundle = new Bundle();
-//                    String path = selectedFile.getAbsolutePath();
-//                    intent.putExtra("path",path);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(intent);
-//                    // TODO: como se puede hacer que cuando se haga click en una linea se abra dicha
-//                    //       parte con la nueva informacion.
-
                     Bundle args = new Bundle();
                     //Añado la variable path al bundle. O las que hicieran falta
                     args.putString("files", "no");
@@ -75,14 +63,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                     Navigation.findNavController(v).navigate(R.id.action_fileExporer_to_fileExporer, args);
 
                 }else{
-                    //open thte file
+                    //open the file
                     try {
-//                        Intent intent = new Intent();
-//                        intent.setAction(android.content.Intent.ACTION_VIEW);
-//                        String type = "image/*";
-//                        intent.setDataAndType(Uri.parse(selectedFile.getAbsolutePath()), type);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        context.startActivity(intent);
                         String ar = String.valueOf(Uri.parse(selectedFile.getAbsolutePath()));
                         Bundle args = new Bundle();
                         args.putString("path", selectedFile.getAbsolutePath());
@@ -110,9 +92,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             if(item.getTitle().equals("Eliminar")){
+
                                 boolean deleted = selectedFile.delete();
                                 if(deleted){
-                                    Toast.makeText(context.getApplicationContext(),"DELETED ",Toast.LENGTH_SHORT).show();
+                                    AppDatabase db = AppDatabase.getDatabase(context);
+
+                                    if(db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null){
+                                        int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
+                                        db.getTaskDAO().deleteByFileID(id);
+                                        db.getFileDAO().deleteByID(id);
+                                    }
+
+                                    Toast.makeText(context.getApplicationContext(),"Documento eliminado con éxito",Toast.LENGTH_SHORT).show();
                                     v.setVisibility(View.GONE);
                                 }
                             }
@@ -120,7 +111,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                                 Intent intent = new Intent();
                                 intent.setAction(Intent.ACTION_SEND);
                                 intent.setType("text/plain");
-                                Toast.makeText(context.getApplicationContext(),"SHARED",Toast.LENGTH_SHORT).show();
 
                                 if(intent.resolveActivity(context.getPackageManager()) != null){
                                     context.startActivity(intent);

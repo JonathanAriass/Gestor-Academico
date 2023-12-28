@@ -13,14 +13,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gestoracademico.MyAdapter;
+import com.example.gestoracademico.FileExplorerAdapter;
 import com.example.gestoracademico.R;
 import com.example.gestoracademico.databinding.FragmentFileExplorerBinding;
 
@@ -45,14 +44,10 @@ public class FileExplorerFragment extends Fragment {
         fileList = root.findViewById(R.id.files_recycler_view);
         noFilesText = root.findViewById(R.id.nofiles_textview);
 
-        if (checkPermission()){
-            //permission allowed
-            Toast.makeText(getContext(),"Con permisos",Toast.LENGTH_SHORT).show();
-        }else{
+        if (!checkPermission()){
             //permission not allowed
             requestPermission();
             Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
-
         }
 
         //String path = Environment.getExternalStorageDirectory().getPath();
@@ -82,7 +77,7 @@ public class FileExplorerFragment extends Fragment {
             noFilesText.setVisibility(View.INVISIBLE);
 
             fileList.setLayoutManager(new LinearLayoutManager(getContext()));
-            fileList.setAdapter(new MyAdapter(getContext(),filesAndFolders));
+            fileList.setAdapter(new FileExplorerAdapter(getContext(),filesAndFolders));
             return root;
         }
 

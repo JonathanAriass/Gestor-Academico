@@ -160,7 +160,7 @@ public class TaskRecycler extends AppCompatActivity {
                 String[] data = line.split(";");
                 if (data != null && data.length >= 5) {
                     if (data.length==3) {
-                        task = new Task(Integer.parseInt(data[0]), data[1], data[2]);
+                        task = new Task(Integer.parseInt(data[0]), data[1], data[2], 0, 0);
                         appDatabase.getTaskDAO().add(task);
                     }
                     Log.d("loadTasks()", task.toString());
