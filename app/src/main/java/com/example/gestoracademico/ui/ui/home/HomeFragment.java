@@ -24,8 +24,13 @@ import com.example.gestoracademico.R;
 import com.example.gestoracademico.TaskListAdapter;
 import com.example.gestoracademico.TaskRecycler;
 import com.example.gestoracademico.databinding.FragmentHomeBinding;
+import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +46,9 @@ public class HomeFragment extends Fragment {
     List<Task> listaTareas =  new ArrayList<Task>();
     Task tarea;
     RecyclerView listaTareaView;
+
+    private AppDatabase appDatabase;
+
 
     public static HomeFragment newInstance(String caratula, String estreno, String duracion) {
         HomeFragment fragment = new HomeFragment();
@@ -65,6 +73,10 @@ public class HomeFragment extends Fragment {
 //                new ViewModelProvider(this).get(HomeViewModel.class);
         View root  = inflater.inflate(R.layout.fragment_home, container, false);
 
+        appDatabase = AppDatabase.getDatabase(getContext());
+//        appDatabase.getTaskDAO().deleteAll();
+//        loadTasks();
+
 //        binding = FragmentHomeBinding.inflate(inflater, container, false);
 //        View root = binding.getRoot();
         listaTareaView = root.findViewById(R.id.reciclerView);
@@ -72,11 +84,11 @@ public class HomeFragment extends Fragment {
 
         listaTareaView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        Task t1= new Task("Hacer tarea de SI","26/8/2020","");
-        Task t2= new Task("Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020","");
-
-        listaTareas.add( t1);
-        listaTareas.add( t2);
+//        Task t1= new Task(1, "Hacer tarea de SI","26/8/2020");
+//        Task t2= new Task(2, "Comprar patatas, huevos, leche, cereales y manzanas","26/8/2020");
+//
+//        listaTareas.add( t1);
+//        listaTareas.add( t2);
 
         TaskListAdapter tlAdapter= new TaskListAdapter(listaTareas,
                 new TaskListAdapter.OnItemClickListener() {
@@ -89,6 +101,44 @@ public class HomeFragment extends Fragment {
         });
         listaTareaView.setAdapter(tlAdapter);
         return root;
+    }
+
+    protected void loadTasks() {
+        Task task = null;
+        listaTareas = new ArrayList<>();
+        InputStream file;
+        InputStreamReader reader;
+        BufferedReader bufferedReader = null;
+
+        try {
+            file = getContext().getAssets().open("tasks.csv");
+            reader = new InputStreamReader(file);
+            bufferedReader = new BufferedReader(reader);
+
+            String line = null;
+            bufferedReader.readLine();
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data != null) {
+                    if (data.length==3) {
+                        task = new Task(Integer.parseInt(data[0]), data[1], data[2], 0, 0);
+                        appDatabase.getTaskDAO().add(task);
+                        listaTareas.add(task);
+                    }
+                    Log.d("loadTasks()", task.toString());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -125,17 +175,23 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        Log.i("ENTRA EN ONRESUME", "ejemplo");
 
-//        TaskListAdapter tlAdapter= new TaskListAdapter(listaTareas,
-//                new TaskListAdapter.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(Task tarea) {
-//
-//                        Log.i("Click en tarea", "Click");
-//                        clickonItem(tarea);
-//                    }
-//                });
-//        listaTareaView.setAdapter(tlAdapter);
+        listaTareas = appDatabase.getTaskDAO().getAll();
+
+        Log.i("VALOR LISTA SIZE", String.valueOf(listaTareas.size()));
+
+
+        TaskListAdapter tlAdapter= new TaskListAdapter(listaTareas,
+                new TaskListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Task tarea) {
+
+                        Log.i("Click en tarea", "Click");
+                        clickonItem(tarea);
+                    }
+                });
+        listaTareaView.setAdapter(tlAdapter);
     }
 
     public void clickonItem (Task tarea){

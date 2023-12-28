@@ -2,9 +2,12 @@ package com.example.gestoracademico;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
 
 public class NewTask extends AppCompatActivity {
@@ -26,7 +29,12 @@ public class NewTask extends AppCompatActivity {
     }
 
     public void saveTask(View view) {
-        task = new Task(editDescripcion.getText().toString(),editFecha.getText().toString());
+        AppDatabase db = AppDatabase.getDatabase(this);
+        Task task = new Task(db.getTaskDAO().getLastId() + 1, editDescripcion.getText().toString(), editFecha.getText().toString(), 0, 0);
+
+        db.getTaskDAO().add(task);
+
+        Log.i("INSERT TASK", task.toString());
 
         Intent intentResultado = new Intent();
         intentResultado.putExtra(TaskRecycler.TAREA_CREADA,task);

@@ -1,13 +1,16 @@
 package com.example.gestoracademico;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gestoracademico.modelo.Task;
@@ -80,12 +83,20 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
             //Picasso.get().load(tarea.getImagen()).into(imagen);
 
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override public void onClick(View v) {
-//                    Log.i("Hola", "Hola");
-//                    listener.onItemClick(tarea);
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
+                    Log.i("CLICKITEM", tarea.toString());
+                    // Se debera de abrir el modo consulta
+                    Bundle args = new Bundle();
+
+                    args.putString("titulo", tarea.getDescripcion());
+                    args.putString("fecha", tarea.getFecha());
+                    args.putInt("fileID", tarea.getFk_pdf());
+                    //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
+                    Navigation.findNavController(v).navigate(R.id.action_home_to_consultaTask, args);
+                }
+            });
         }
     }
 }
