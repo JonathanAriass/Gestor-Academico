@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <FrameLayout
-        android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 tools:context=".ui.ui.slideshow.templates.GenericTemplateFragment">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/buttonGeneratePDF">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-               >
+                android:orientation="vertical">
 
             <EditText
                     android:id="@+id/editTextCategoria"
@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Contenido del PDF"
                     android:inputType="textMultiLine" />
+
 
             <Switch
                 android:id="@+id/createTaskWithDocumentGeneric"
@@ -61,17 +62,17 @@
                 android:visibility="invisible"
                 android:autoSizeTextType="uniform"/>
 
-            <Button
-                    android:id="@+id/buttonGeneratePDF"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Generar PDF"/>
-
+            
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Botón para generar el PDF -->
-
-    </FrameLayout>
-
-</ScrollView>
+    <!-- Botón para generar el PDF -->
+    <Button
+            android:id="@+id/buttonGeneratePDF"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:text="Generar PDF"/>
+</RelativeLayout>

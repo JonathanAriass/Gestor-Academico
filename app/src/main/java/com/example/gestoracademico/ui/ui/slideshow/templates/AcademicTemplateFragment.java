@@ -24,6 +24,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
+import java.util.Date;
 
 
 public class AcademicTemplateFragment extends Fragment {
@@ -95,6 +97,44 @@ public class AcademicTemplateFragment extends Fragment {
         generateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Validaciones inputs
+                if(title.getText().toString().isEmpty()){
+                    showToast("El campo del titulo no puede ser vacio");
+                    return;
+                }
+                if(asignatura.getText().toString().isEmpty()){
+                    showToast("El campo asignatura no puede ser vacio");
+                    return;
+                }
+                if(tema.getText().toString().isEmpty()){
+                    showToast("El campo tema no puede ser vacio");
+                    return;
+                }
+                if(fecha.getText().toString().isEmpty()){
+                    showToast("El campo fecha no puede ser vacio");
+                    return;
+                }
+                String[] fechaArray = fecha.getText().toString().split("/");
+                int dia = Integer.parseInt(fechaArray[0]);
+                int mes = Integer.parseInt(fechaArray[1]);
+                int año = Integer.parseInt(fechaArray[2]);
+                if(dia < 1 || dia > 31){
+                    showToast("Formato fecha invalido: Introduce un dia entre 1 y 31");
+                    return;
+                }
+                if(mes < 1 || mes > 12){
+                    showToast("Formato fecha invalido: Introduce un mes entre 1 y 12");
+                    return;
+                }
+                if(año < 2023 ){
+                    showToast("Formato fecha invalido: Año invalido (<2023)");
+                    return;
+                }
+                if(content.getText().toString().isEmpty()){
+                    showToast("El campo del contenido no puede ser vacio");
+                    return;
+                }
+
                 String fileName = title.getText().toString() + ".pdf";
                 Document document = new Document();
 
