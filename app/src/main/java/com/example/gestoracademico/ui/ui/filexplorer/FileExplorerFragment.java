@@ -50,7 +50,7 @@ public class FileExplorerFragment extends Fragment {
             Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
         }
 
-        //String path = Environment.getExternalStorageDirectory().getPath();
+
         String path = getContext().getExternalFilesDir("") + "/pdf";
 
         //Recupero el bundle con getArguments()
@@ -61,13 +61,12 @@ public class FileExplorerFragment extends Fragment {
             path = getArguments().getString("path", path);
         }
 
-
+        //Compruebo la creación de la carpeta de la aplicación
         File direction = new File(path);
         if(!direction.exists()){
             direction.mkdirs();
         }
 
-       // File direction = new File(path);
         File[] filesAndFolders = direction.listFiles();
 
         if(filesAndFolders==null || filesAndFolders.length ==0){

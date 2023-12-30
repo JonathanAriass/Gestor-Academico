@@ -1,9 +1,12 @@
 package com.example.gestoracademico;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,30 +85,46 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(context,v);
+                popupMenu.getMenu().add("Eliminar");
 
                 if(!selectedFile.isDirectory()){
-                    PopupMenu popupMenu = new PopupMenu(context,v);
-                    popupMenu.getMenu().add("Eliminar");
                     popupMenu.getMenu().add("Compartir");
 
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             if(item.getTitle().equals("Eliminar")){
+                                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                                alert.setTitle("Eliminar archivo");
+                                alert.setMessage("¿Estás seguro de que quieres eliminar el archivo?");
+                                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        boolean deleted = selectedFile.delete();
+                                        if(deleted){
+                                            AppDatabase db = AppDatabase.getDatabase(context);
 
-                                boolean deleted = selectedFile.delete();
-                                if(deleted){
-                                    AppDatabase db = AppDatabase.getDatabase(context);
+                                            if(db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null){
+                                                int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
+                                                db.getTaskDAO().deleteByFileID(id);
+                                                db.getFileDAO().deleteByID(id);
+                                            }
 
-                                    if(db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null){
-                                        int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
-                                        db.getTaskDAO().deleteByFileID(id);
-                                        db.getFileDAO().deleteByID(id);
+                                            Toast.makeText(context.getApplicationContext(),"Documento eliminado con éxito",Toast.LENGTH_SHORT).show();
+                                            v.setVisibility(View.GONE);
+                                        }
+                                        // close dialog
+                                        dialog.cancel();
                                     }
+                                });
+                                alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // close dialog
+                                        dialog.cancel();
+                                    }
+                                });
+                                alert.show();
 
-                                    Toast.makeText(context.getApplicationContext(),"Documento eliminado con éxito",Toast.LENGTH_SHORT).show();
-                                    v.setVisibility(View.GONE);
-                                }
                             }
                             if(item.getTitle().equals("Compartir")){
                                 Intent intent = new Intent();
@@ -122,8 +141,60 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
 
                     popupMenu.show();
                     return true;
+                }else{
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            if(item.getTitle().equals("Eliminar")){
+                                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                                alert.setTitle("Eliminar directorio");
+                                alert.setMessage("¿Estás seguro de que quieres eliminar el directorio?, se eliminará todo el contenido");
+                                alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        File[] files = selectedFile.listFiles();
+                                        Log.i("prueba", String.valueOf(files[0].getAbsolutePath()));
+                                        for (int i = 0; i < files.length; i++) {
+                                            boolean deleted = files[i].delete();
+                                            if (deleted) {
+                                                AppDatabase db = AppDatabase.getDatabase(context);
+
+                                                if (db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null) {
+                                                    int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
+                                                    db.getTaskDAO().deleteByFileID(id);
+                                                    db.getFileDAO().deleteByID(id);
+                                                }
+
+                                                Toast.makeText(context.getApplicationContext(), "Documento eliminado con éxito", Toast.LENGTH_SHORT).show();
+                                                v.setVisibility(View.GONE);
+                                            }
+                                        }
+                                        boolean deleted = selectedFile.delete();
+                                        if(deleted){
+                                            Toast.makeText(context.getApplicationContext(), "Directorio eliminado con éxito", Toast.LENGTH_SHORT).show();
+                                            v.setVisibility(View.GONE);
+                                        }
+
+                                        // close dialog
+                                        dialog.cancel();
+                                    }
+                                });
+                                alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // close dialog
+                                        dialog.cancel();
+                                    }
+                                });
+                                alert.show();
+
+                            }
+                            return true;
+                        }
+                    });
+
+                    popupMenu.show();
+                    return true;
                 }
-                return true;
 
             }
         });
