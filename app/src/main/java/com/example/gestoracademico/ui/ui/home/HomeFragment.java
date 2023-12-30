@@ -11,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +36,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SwipeToDeleteCallback.SwipeToDeleteListener {
 
 //    private FragmentHomeBinding binding;
 
@@ -192,6 +194,9 @@ public class HomeFragment extends Fragment {
                     }
                 });
         listaTareaView.setAdapter(tlAdapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(this));
+        itemTouchHelper.attachToRecyclerView(listaTareaView);
     }
 
     public void clickonItem (Task tarea){
@@ -215,5 +220,31 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 //        binding = null;
+    }
+
+    @Override
+    public void onSwipe(int position) {
+        // Obtener el adaptador del RecyclerView
+        RecyclerView.Adapter adapter = listaTareaView.getAdapter();
+
+        // Asegurarse de que el adaptador no sea nulo y que la posición sea válida
+        if (adapter != null && position != RecyclerView.NO_POSITION) {
+            Task tarea = listaTareas.get(position);
+            // Eliminar la tarea del adaptador
+            adapter.notifyItemRemoved(position);
+            //Eliminar la tarea de la lista
+            listaTareas.remove(position);
+
+            //Eliminar la tarea en la BD
+            AppDatabase db = AppDatabase.getDatabase(listaTareaView.getRootView().getContext());
+            if(db.getTaskDAO().getTaskWithDocument().contains(tarea)){
+                db.getFileDAO().deleteByID(tarea.getFk_pdf());
+            }
+            db.getTaskDAO().delete(tarea);
+            Toast.makeText(listaTareaView.getRootView().getContext(), "Tarea eliminada correctamente", Toast.LENGTH_SHORT).show();
+
+
+
+        }
     }
 }
