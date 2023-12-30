@@ -1,8 +1,16 @@
 package com.example.gestoracademico.ui.ui.home.consulta;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -30,10 +38,15 @@ public class TaskConsultaFragment extends Fragment {
 
     private static final String ARG_FILEID = "fileID";
 
+    private static final String ARG_PRIORIDAD = "prioridad";
+
     private String titulo;
     private String fecha;
-
     private int documentID;
+    private int prioridad;
+
+    private @DrawableRes int roundedSquareBackground = R.drawable.box;
+
 
     public TaskConsultaFragment() {
         // Required empty public constructor
@@ -46,6 +59,7 @@ public class TaskConsultaFragment extends Fragment {
             titulo = getArguments().getString(ARG_TITULO);
             fecha = getArguments().getString(ARG_DATE);
             documentID = getArguments().getInt(ARG_FILEID);
+            prioridad = getArguments().getInt(ARG_PRIORIDAD);
         }
     }
 
@@ -108,7 +122,7 @@ public class TaskConsultaFragment extends Fragment {
      *
      */
     private void adaptDate(View view) {
-        Log.i("FECHAS", fecha);
+        Log.i("Prioridad", String.valueOf(prioridad));
         String[] dateParts = fecha.split("/");
         String[] mesesAbreviados = {"ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"};
 
@@ -118,5 +132,52 @@ public class TaskConsultaFragment extends Fragment {
         diaText.setText(dia);
         TextView mesText = view.findViewById(R.id.mesTxt);
         mesText.setText(mes);
+
+        TextView backgroundTextView = view.findViewById(R.id.textView4);
+//        backgroundTextView.setBackgroundColor(0xfff00000);
+
+        int newColor = Color.parseColor("#ffffff");
+        switch (prioridad) {
+            case 0:
+                newColor = Color.parseColor("#7484cf");
+                break;
+            case 1:
+                newColor = Color.parseColor("#d1db86");
+                break;
+            case 2:
+                newColor = Color.parseColor("#d68181");
+                break;
+        }
+//        int newColor =  // Example color, you can use any valid color code
+        int strokeColor = Color.parseColor("#000000"); // Example stroke color, replace with your color code
+//        backgroundTextView.setBackgroundColor(newColor);
+
+//        int newColor = ContextCompat.getColor(this, R.color.your_dynamic_color); // Replace with your dynamic color
+        Drawable roundedDrawable = getRoundedDrawable(newColor, strokeColor);
+        backgroundTextView.setBackground(roundedDrawable);
+
+//        paintPrioridadBackground();
+        mesText.bringToFront();
+        diaText.bringToFront();
     }
+    private Drawable getRoundedDrawable(int color, int strokeColor) {
+        Drawable drawable = ContextCompat.getDrawable(getContext(), roundedSquareBackground);
+        if (drawable != null) {
+//            drawable.setTint(color);
+            drawable.mutate();
+            drawable.setColorFilter(color, PorterDuff.Mode.SRC);
+
+        }
+        return drawable;
+    }
+
+
+//    private void paintPrioridadBackground() {
+//        switch (prioridad) {
+//            case 0:
+//
+//
+////                #
+//        }
+//    }
 }

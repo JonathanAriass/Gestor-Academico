@@ -1,5 +1,7 @@
 package com.example.gestoracademico;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,7 +70,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
         public TaskViewHolder(View itemView) {
             super(itemView);
-
             descripcion= (TextView)itemView.findViewById(R.id.descripcionTarea);
             fecha= (TextView)itemView.findViewById(R.id.fechaTarea);
             imagen= (ImageView)itemView.findViewById(R.id.imagen);
@@ -93,10 +94,25 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                     args.putString("titulo", tarea.getDescripcion());
                     args.putString("fecha", tarea.getFecha());
                     args.putInt("fileID", tarea.getFk_pdf());
+                    args.putInt("prioridad", tarea.getPrioridad());
                     //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
                     Navigation.findNavController(v).navigate(R.id.action_home_to_consultaTask, args);
                 }
             });
+
+            int newColor = Color.parseColor("#ffffff");
+            switch (tarea.getPrioridad()) {
+                case 0:
+                    newColor = Color.parseColor("#7484cf");
+                    break;
+                case 1:
+                    newColor = Color.parseColor("#d1db86");
+                    break;
+                case 2:
+                    newColor = Color.parseColor("#d68181");
+                    break;
+            }
+            imagen.setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
         }
     }
 }
