@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.gestoracademico.R;
@@ -35,6 +37,14 @@ public class NewTaskFragment extends Fragment {
         Button btSave = view.findViewById(R.id.btGuardar);
         Log.i("BtSave", btSave.toString());
 
+        Spinner dpPrioridad = view.findViewById(R.id.dpPrioridad);
+
+        // Spinner para seleccionar la prioridad de la tarea
+        ArrayAdapter<CharSequence>adapter= ArrayAdapter.createFromResource(getContext(), R.array.prioridades, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        dpPrioridad.setAdapter(adapter);
+
+        // EditText siendo este el selector de la fecha de la tarea
         EditText etPlannedDate = view.findViewById(R.id.editTextDate2);
         etPlannedDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,10 +68,11 @@ public class NewTaskFragment extends Fragment {
 
                 EditText editTextTextMultiLine = view.findViewById(R.id.editTextTextMultiLine);
                 EditText editTextDate2 = view.findViewById(R.id.editTextDate2);
+                Spinner dpPrioridad = view.findViewById(R.id.dpPrioridad);
                 // Comprobar datos correctos
                 // Guardar en la base de datos
                 AppDatabase db = AppDatabase.getDatabase(getContext());
-                Task task = new Task(db.getTaskDAO().getLastId() + 1, editTextTextMultiLine.getText().toString(), editTextDate2.getText().toString(), 0, 0);
+                Task task = new Task(db.getTaskDAO().getLastId() + 1, editTextTextMultiLine.getText().toString(), editTextDate2.getText().toString(), getPrioridad(dpPrioridad), 0);
 
                 db.getTaskDAO().add(task);
                 // Mostar snackbar con mensaje de creacion de tarea correcta
@@ -73,6 +84,15 @@ public class NewTaskFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    /**
+     * Metodo que obtiene la prioridad de la tarea a crear
+     * @param dpPrioridad Objeto Spinner del que obtener la informacion de la prioridad
+     * @return Numero de la prioridad (0: baja, 1: media, 2: alta) (0 por defecto)
+     */
+    private int getPrioridad(Spinner dpPrioridad) {
+        return dpPrioridad.getSelectedItemPosition();
     }
 
     private void showToast(String message) {

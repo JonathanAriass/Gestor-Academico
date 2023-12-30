@@ -124,6 +124,8 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
                     args.putString("titulo", tarea.getDescripcion());
                     args.putString("fecha", tarea.getFecha());
+                    args.putInt("fileID", tarea.getFk_pdf());
+                    args.putInt("prioridad", tarea.getPrioridad());
                     //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
                     Navigation.findNavController(v).navigate(R.id.action_calendar_to_consultaTask, args);
                 }

@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment {
 
         Log.i("ENTRA EN ONRESUME", "ejemplo");
 
-        listaTareas = appDatabase.getTaskDAO().getAll();
+        listaTareas = appDatabase.getTaskDAO().getAllOrderByPriority();
 
         Log.i("VALOR LISTA SIZE", String.valueOf(listaTareas.size()));
 
