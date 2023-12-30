@@ -18,6 +18,8 @@ public class Task implements Parcelable {
     private String descripcion;
     private String fecha;
     private int prioridad;
+
+    @Nullable
     private int fk_pdf;
 
 
@@ -98,7 +100,7 @@ public class Task implements Parcelable {
         dest.writeString(descripcion);
         dest.writeString(fecha);
         dest.writeInt(prioridad);
-        dest.writeInt(fk_pdf);
+        dest.writeValue(fk_pdf);
 
     }
 

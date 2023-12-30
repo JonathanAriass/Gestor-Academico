@@ -179,7 +179,7 @@ public class HomeFragment extends Fragment implements SwipeToDeleteCallback.Swip
 
         Log.i("ENTRA EN ONRESUME", "ejemplo");
 
-        listaTareas = appDatabase.getTaskDAO().getAll();
+        listaTareas = appDatabase.getTaskDAO().getAllOrderByPriority();
 
         Log.i("VALOR LISTA SIZE", String.valueOf(listaTareas.size()));
 

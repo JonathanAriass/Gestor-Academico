@@ -22,6 +22,9 @@ public interface TaskDAO {
     @Query("SELECT * FROM tasks")
     List<Task> getAll();
 
+    @Query("SELECT * FROM tasks ORDER BY prioridad DESC")
+    List<Task> getAllOrderByPriority();
+
     @Query("SELECT * FROM tasks where fecha = :date")
     List<Task> getByDate(String date);
 
