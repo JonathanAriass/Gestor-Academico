@@ -47,7 +47,6 @@ public class FileExplorerFragment extends Fragment {
         if (!checkPermission()){
             //permission not allowed
             requestPermission();
-            Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
         }
 
 
