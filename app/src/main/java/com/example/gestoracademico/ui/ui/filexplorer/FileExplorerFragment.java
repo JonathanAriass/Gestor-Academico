@@ -47,27 +47,30 @@ public class FileExplorerFragment extends Fragment {
         if (!checkPermission()){
             //permission not allowed
             requestPermission();
-            Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
         }
 
-        //String path = Environment.getExternalStorageDirectory().getPath();
+
         String path = getContext().getExternalFilesDir("") + "/pdf";
 
         //Recupero el bundle con getArguments()
         Bundle bundle = getArguments();
+
         if (bundle != null)
         {
-            //Si no se recibe una key path, el que ya está en la inicialización  de path.
-            path = getArguments().getString("path", path);
+            String condition = getArguments().getString("first", "yes");
+            if(condition == "no") {
+                //Si no se recibe una key path, el que ya está en la inicialización  de path.
+                path = getArguments().getString("path", path);
+                bundle.putString("first", "yes");
+            }
         }
 
-
+        //Compruebo la creación de la carpeta de la aplicación
         File direction = new File(path);
         if(!direction.exists()){
             direction.mkdirs();
         }
 
-       // File direction = new File(path);
         File[] filesAndFolders = direction.listFiles();
 
         if(filesAndFolders==null || filesAndFolders.length ==0){
