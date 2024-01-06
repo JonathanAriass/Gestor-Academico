@@ -23,6 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gestoracademico.datos.AppDatabase;
 
+
+/**
+ * Adapter para el RecyclerView
+ *  del explorador de archivos
+ */
 public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapter.ViewHolder>{
 
     Context context;
@@ -62,6 +67,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                     //Añado la variable path al bundle. O las que hicieran falta
                     args.putString("files", "no");
                     args.putString("path", selectedFile.getAbsolutePath());
+                    args.putString("first","no");
                     //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
                     Navigation.findNavController(v).navigate(R.id.action_fileExporer_to_fileExporer, args);
 
@@ -72,7 +78,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                         Bundle args = new Bundle();
                         args.putString("path", selectedFile.getAbsolutePath());
                         args.putString("files", "yes");
-
+                        args.putString("first","no");
                         Navigation.findNavController(v).navigate(R.id.action_fileExporer_to_pdfViewer, args);
 
                     }catch (Exception e){
@@ -88,6 +94,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                 PopupMenu popupMenu = new PopupMenu(context,v);
                 popupMenu.getMenu().add("Eliminar");
 
+                //Si lo seleccionado es un archivo
                 if(!selectedFile.isDirectory()){
                     popupMenu.getMenu().add("Compartir");
 
@@ -104,6 +111,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                                         if(deleted){
                                             AppDatabase db = AppDatabase.getDatabase(context);
 
+                                            //Eliminamos de la base de datos tantos las tareas asociadas como los documentos
                                             if(db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null){
                                                 int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
                                                 db.getTaskDAO().deleteByFileID(id);
@@ -141,7 +149,8 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
 
                     popupMenu.show();
                     return true;
-                }else{
+
+                }else{ // si lo seleccionado es un directorio
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
@@ -152,15 +161,17 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
 
+                                        //Eliminaremos los archivos el directorio
+                                        // y su vez de la base de datos si los tuviera
                                         File[] files = selectedFile.listFiles();
-                                        Log.i("prueba", String.valueOf(files[0].getAbsolutePath()));
                                         for (int i = 0; i < files.length; i++) {
                                             boolean deleted = files[i].delete();
                                             if (deleted) {
                                                 AppDatabase db = AppDatabase.getDatabase(context);
 
-                                                if (db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null) {
-                                                    int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
+
+                                                if (db.getFileDAO().getByPath(files[i].getAbsolutePath()) != null) {
+                                                    int id = db.getFileDAO().getByPath(files[i].getAbsolutePath()).getId();
                                                     db.getTaskDAO().deleteByFileID(id);
                                                     db.getFileDAO().deleteByID(id);
                                                 }

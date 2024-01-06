@@ -54,10 +54,15 @@ public class FileExplorerFragment extends Fragment {
 
         //Recupero el bundle con getArguments()
         Bundle bundle = getArguments();
+
         if (bundle != null)
         {
-            //Si no se recibe una key path, el que ya está en la inicialización  de path.
-            path = getArguments().getString("path", path);
+            String condition = getArguments().getString("first", "yes");
+            if(condition == "no") {
+                //Si no se recibe una key path, el que ya está en la inicialización  de path.
+                path = getArguments().getString("path", path);
+                bundle.putString("first", "yes");
+            }
         }
 
         //Compruebo la creación de la carpeta de la aplicación
