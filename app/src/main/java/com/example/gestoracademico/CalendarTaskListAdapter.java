@@ -117,7 +117,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
                     Log.i("CLICKITEM", tarea.toString());
                     // Se debera de abrir el modo consulta
                     Bundle args = new Bundle();
