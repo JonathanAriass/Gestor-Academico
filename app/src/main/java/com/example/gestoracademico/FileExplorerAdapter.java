@@ -107,18 +107,15 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                                 alert.setMessage("¿Estás seguro de que quieres eliminar el archivo?");
                                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
+                                        int pos = getPositionOfFile(selectedFile);
+
+                                        //Actualizamos el scrollView
+                                        updateScrollView(selectedFile, pos);
+                                        notifyItemRemoved(pos);
+
                                         boolean deleted = selectedFile.delete();
                                         if(deleted){
-                                            AppDatabase db = AppDatabase.getDatabase(context);
-
-                                            //Eliminamos de la base de datos tantos las tareas asociadas como los documentos
-                                            if(db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null){
-                                                int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
-                                                db.getTaskDAO().deleteByFileID(id);
-                                                db.getFileDAO().deleteByID(id);
-                                            }
-
-                                            Toast.makeText(context.getApplicationContext(),"Documento eliminado con éxito",Toast.LENGTH_SHORT).show();
+                                            deleteFilesAndTasks(selectedFile);
                                             v.setVisibility(View.GONE);
                                         }
                                         // close dialog
@@ -167,19 +164,16 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                                         for (int i = 0; i < files.length; i++) {
                                             boolean deleted = files[i].delete();
                                             if (deleted) {
-                                                AppDatabase db = AppDatabase.getDatabase(context);
-
-
-                                                if (db.getFileDAO().getByPath(files[i].getAbsolutePath()) != null) {
-                                                    int id = db.getFileDAO().getByPath(files[i].getAbsolutePath()).getId();
-                                                    db.getTaskDAO().deleteByFileID(id);
-                                                    db.getFileDAO().deleteByID(id);
-                                                }
-
-                                                Toast.makeText(context.getApplicationContext(), "Documento eliminado con éxito", Toast.LENGTH_SHORT).show();
+                                                deleteFilesAndTasks(selectedFile);
                                                 v.setVisibility(View.GONE);
                                             }
                                         }
+
+                                        int pos = getPositionOfFile(selectedFile);
+                                        //Actualizamos el scrollView
+                                        updateScrollView(selectedFile, pos);
+                                        notifyItemRemoved(pos);
+
                                         boolean deleted = selectedFile.delete();
                                         if(deleted){
                                             Toast.makeText(context.getApplicationContext(), "Directorio eliminado con éxito", Toast.LENGTH_SHORT).show();
@@ -213,6 +207,56 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
 
     }
 
+
+    /**
+     * Elimina de la base de datos
+     * los archivos y las tareas asociados a estos
+     * @param selectedFile
+     */
+    public void deleteFilesAndTasks(File selectedFile){
+        AppDatabase db = AppDatabase.getDatabase(context);
+
+        //Eliminamos de la base de datos tantos las tareas asociadas como los documentos
+        if(db.getFileDAO().getByPath(selectedFile.getAbsolutePath()) != null){
+            int id = db.getFileDAO().getByPath(selectedFile.getAbsolutePath()).getId();
+            db.getTaskDAO().deleteByFileID(id);
+            db.getFileDAO().deleteByID(id);
+        }
+
+        Toast.makeText(context.getApplicationContext(),"Documento eliminado con éxito",Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Actualiza el scrollView
+     * @param selectedFile
+     * @param pos
+     */
+    public void updateScrollView(File selectedFile, int pos){
+
+        File[] newArray = new File[filesAndFolders.length - 1];
+        System.arraycopy(filesAndFolders, 0, newArray, 0, pos);
+        System.arraycopy(filesAndFolders, pos + 1, newArray, pos, filesAndFolders.length - pos - 1);
+
+        // Update the array in the adapter
+        filesAndFolders = newArray;
+    }
+
+
+    /**
+     * Obtiene la posición del archivo
+     * dentro del scrollView
+     * @param fileToFind
+     * @return
+     */
+    public int getPositionOfFile(File fileToFind) {
+        for (int i = 0; i < filesAndFolders.length; i++) {
+            File currentFile = filesAndFolders[i];
+            if (currentFile.equals(fileToFind)) {
+                return i;
+            }
+        }
+        return -1; // Return -1 if the File object is not found
+    }
     @Override
     public int getItemCount() {
         return filesAndFolders.length;
