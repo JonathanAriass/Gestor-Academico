@@ -1,16 +1,19 @@
 package com.example.gestoracademico;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.ui.NavigationDrawer;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +43,12 @@ public class EspressoTest {
     @Rule
     public ActivityTestRule<NavigationDrawer> mActivityRule = new ActivityTestRule<>(NavigationDrawer.class);
 
+    @Before
+    public void setUp(){
+        AppDatabase db = AppDatabase.getDatabase(ApplicationProvider.getApplicationContext());
+        db.getTaskDAO().deleteAll();
+        db.getFileDAO().deleteAll();
+    }
     @Test
     public void createTask_Base() {
        //Click boton crear tarea
@@ -172,23 +181,7 @@ public class EspressoTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.editTextCategoria),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                0)));
-        appCompatEditText.perform(scrollTo(), replaceText("SEW"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.editTextCategoria), withText("SEW"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                0)));
-        appCompatEditText2.perform(scrollTo(), click());
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.editTextTitle),
@@ -226,6 +219,178 @@ public class EspressoTest {
                                 1),
                         isDisplayed()));
         floatingActionButton.perform(click());
+
+        ViewInteraction appCompatImageButton2 = onView(
+                allOf(withContentDescription("Navigate up"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("com.google.android.material.appbar.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton2.perform(click());
+
+        ViewInteraction appCompatImageButton3 = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("com.google.android.material.appbar.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton3.perform(click());
+
+        ViewInteraction navigationMenuItemView2 = onView(
+                allOf(withId(R.id.nav_explorer),
+                        childAtPosition(
+                                allOf(withId(com.google.android.material.R.id.design_navigation_view),
+                                        childAtPosition(
+                                                withId(R.id.nav_view),
+                                                0)),
+                                4),
+                        isDisplayed()));
+        navigationMenuItemView2.perform(click());
+
+        //Comprobamos que se ha creado el pdf
+        onView(withText("JavaScript.pdf")).check(matches(isDisplayed()));
+
+    }
+
+    @Test
+    public void createPDF_conTarea(){
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("com.google.android.material.appbar.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(withId(R.id.nav_slideshow),
+                        childAtPosition(
+                                allOf(withId(com.google.android.material.R.id.design_navigation_view),
+                                        childAtPosition(
+                                                withId(R.id.nav_view),
+                                                0)),
+                                3),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
+
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.editTextTitle),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                1)));
+        appCompatEditText.perform(scrollTo(), replaceText("Prueba pdf con ta"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.editTextContent),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                2)));
+        appCompatEditText2.perform(scrollTo(), replaceText("prueba"), closeSoftKeyboard());
+
+        ViewInteraction switch_ = onView(
+                allOf(withId(R.id.createTaskWithDocumentGeneric), withText("Generar tarea"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                3)));
+        switch_.perform(scrollTo(), click());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.titleTaskfromDocumentGeneric),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                4)));
+        appCompatEditText3.perform(scrollTo(), click());
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.titleTaskfromDocumentGeneric),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                4)));
+        appCompatEditText4.perform(scrollTo(), replaceText("Prueba pdf con tarea"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText5 = onView(
+                allOf(withId(R.id.dateTaskfromDocumentGeneric),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                5)));
+        appCompatEditText5.perform(scrollTo(), click());
+
+        ViewInteraction materialButton = onView(
+                allOf(withId(android.R.id.button1), withText("OK"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                3)));
+        materialButton.perform(scrollTo(), click());
+
+        ViewInteraction floatingActionButton = onView(
+                allOf(withId(R.id.fab),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment_content_navigation_drawer),
+                                        0),
+                                1),
+                        isDisplayed()));
+        floatingActionButton.perform(click());
+
+        ViewInteraction appCompatImageButton2 = onView(
+                allOf(withContentDescription("Navigate up"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("com.google.android.material.appbar.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton2.perform(click());
+
+        ViewInteraction appCompatImageButton3 = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("com.google.android.material.appbar.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton3.perform(click());
+
+        ViewInteraction navigationMenuItemView2 = onView(
+                allOf(withId(R.id.nav_home),
+                        childAtPosition(
+                                allOf(withId(com.google.android.material.R.id.design_navigation_view),
+                                        childAtPosition(
+                                                withId(R.id.nav_view),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        navigationMenuItemView2.perform(click());
+
+        //Comprobamos que se ha creado la tarea
+        onView(withText("Prueba pdf con tarea")).check(matches(isDisplayed()));
+
     }
 
     private static Matcher<View> childAtPosition(

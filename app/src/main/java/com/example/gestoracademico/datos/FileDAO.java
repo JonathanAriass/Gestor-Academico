@@ -34,4 +34,7 @@ public interface FileDAO {
 
     @Query("DELETE FROM document where id = :fileID")
     void deleteByID(int fileID);
+
+    @Query("Delete FROM document")
+    void deleteAll();
 }
