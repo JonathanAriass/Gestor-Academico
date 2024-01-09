@@ -59,6 +59,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
             holder.imageView.setImageResource(R.drawable.ic_baseline_insert_drive_file_24);
         }
 
+        //Click corto en un elemento del explorador de archivos
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +89,8 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
             }
         });
 
+
+        //Mantener click en un elemento del explorador de archivos
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

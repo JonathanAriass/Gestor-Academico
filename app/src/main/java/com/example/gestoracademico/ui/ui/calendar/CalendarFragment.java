@@ -1,13 +1,11 @@
-package com.example.gestoracademico.ui.ui.gallery;
+package com.example.gestoracademico.ui.ui.calendar;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,29 +18,23 @@ import com.example.gestoracademico.R;
 import com.example.gestoracademico.databinding.FragmentCalendarBinding;
 import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
-import com.example.gestoracademico.ui.SQLiteHandler;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+
+/**
+ * Fragmento del calendario
+ */
 public class CalendarFragment extends Fragment {
 
     private FragmentCalendarBinding binding;
-
-    private SQLiteHandler dbHandler;
-
-    private EditText eventTitle;
-
 
     private CalendarView calendarView;
 
     private String selectedDate;
 
-    private SQLiteDatabase sqLiteDatabase;
 
     RecyclerView dayTasksView;
     private AppDatabase appDatabase;
@@ -87,6 +79,7 @@ public class CalendarFragment extends Fragment {
      */
     private void updateCurrentDayTasks(View root) {
         LocalDate localDate;
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             localDate = LocalDate.now();
             int day = localDate.getDayOfMonth();
@@ -95,6 +88,7 @@ public class CalendarFragment extends Fragment {
             selectedDate =  Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
             readTasks(root);
         }
+
 
     }
 

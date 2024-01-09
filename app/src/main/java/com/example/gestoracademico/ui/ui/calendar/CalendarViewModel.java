@@ -1,4 +1,4 @@
-package com.example.gestoracademico.ui.ui.gallery;
+package com.example.gestoracademico.ui.ui.calendar;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
