@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import androidx.core.content.FileProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -135,13 +136,21 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
 
                             }
                             if(item.getTitle().equals("Compartir")){
-                                Intent intent = new Intent();
-                                intent.setAction(Intent.ACTION_SEND);
-                                intent.setType("text/plain");
 
-                                if(intent.resolveActivity(context.getPackageManager()) != null){
-                                    context.startActivity(intent);
+                                Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+                                intentShareFile.setType("application/pdf");
+
+                                // Obtén la URI del archivo seleccionado
+                                Uri fileUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", new File(selectedFile.getAbsolutePath()));
+                                Log.i(String.valueOf(fileUri),"prueba");
+                                // Agrega la URI al intent
+                                intentShareFile.putExtra(Intent.EXTRA_STREAM, fileUri);
+                                intentShareFile.putExtra(Intent.EXTRA_SUBJECT,"Mira estos apuntes!!");
+
+                                if(intentShareFile.resolveActivity(context.getPackageManager()) != null){
+                                    context.startActivity(intentShareFile);
                                 }
+
                             }
                             return true;
                         }
