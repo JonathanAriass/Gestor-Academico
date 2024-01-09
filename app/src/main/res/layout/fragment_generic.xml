@@ -9,7 +9,7 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/buttonGeneratePDF">
+            >
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -29,13 +29,6 @@
                     android:hint="Título del PDF"
                     android:inputType="text" />
 
-            <EditText
-                    android:id="@+id/editTextContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Contenido del PDF"
-                    android:inputType="textMultiLine" />
-
 
             <Switch
                 android:id="@+id/createTaskWithDocumentGeneric"
@@ -50,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Título de la tarea"
                 android:inputType="text"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:autoSizeTextType="uniform"/>
 
             <EditText
@@ -62,13 +55,21 @@
                 android:maxLines="1"
                 android:focusable="false"
                 android:inputType="date"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:autoSizeTextType="uniform"/>
+
+            <EditText
+                    android:id="@+id/editTextContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contenido del PDF"
+                    android:inputType="textMultiLine" />
+
+
 
             
         </LinearLayout>
     </ScrollView>
 
-    <!-- Botón para generar el PDF -->
 
 </RelativeLayout>

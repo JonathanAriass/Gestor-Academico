@@ -26,6 +26,9 @@ import com.example.gestoracademico.databinding.FragmentFileExplorerBinding;
 import java.io.File;
 
 
+/**
+ * Fragmento del Explorador de archivos
+ */
 public class FileExplorerFragment extends Fragment {
 
     private FragmentFileExplorerBinding binding;
@@ -88,7 +91,10 @@ public class FileExplorerFragment extends Fragment {
 
     }
 
-
+    /**
+     * Comprueba si se tiene permisos
+     * @return
+     */
     private boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(result == PackageManager.PERMISSION_GRANTED){
@@ -97,6 +103,10 @@ public class FileExplorerFragment extends Fragment {
             return false;
     }
 
+
+    /**
+     * Solicita permisos
+     */
     private void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Toast.makeText(getContext(), "Storage permission is requires,please allow from settings", Toast.LENGTH_SHORT).show();
@@ -105,14 +115,6 @@ public class FileExplorerFragment extends Fragment {
         }
     }
 
-
-    public RecyclerView getFileList() {
-        return fileList;
-    }
-
-    public void setFileList(RecyclerView fileList) {
-        this.fileList = fileList;
-    }
 
     @Override
     public void onDestroyView() {

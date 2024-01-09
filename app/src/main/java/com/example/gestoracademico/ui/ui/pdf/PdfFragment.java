@@ -17,6 +17,10 @@ import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.File;
 
+
+/**
+ * Fragmento para el visor de PDFs
+ */
 public class PdfFragment extends Fragment {
 
     private FragmentPdfBinding binding;

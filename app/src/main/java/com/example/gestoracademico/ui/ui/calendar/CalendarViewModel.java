@@ -1,14 +1,14 @@
-package com.example.gestoracademico.ui.ui.gallery;
+package com.example.gestoracademico.ui.ui.calendar;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class CalendarViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public CalendarViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is gallery fragment");
     }

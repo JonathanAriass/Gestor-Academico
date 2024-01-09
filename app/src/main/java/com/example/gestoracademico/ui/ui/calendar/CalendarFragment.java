@@ -1,13 +1,11 @@
-package com.example.gestoracademico.ui.ui.gallery;
+package com.example.gestoracademico.ui.ui.calendar;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,31 +15,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gestoracademico.CalendarTaskListAdapter;
 import com.example.gestoracademico.R;
-import com.example.gestoracademico.databinding.FragmentGalleryBinding;
+import com.example.gestoracademico.databinding.FragmentCalendarBinding;
 import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
-import com.example.gestoracademico.ui.SQLiteHandler;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class GalleryFragment extends Fragment {
 
-    private FragmentGalleryBinding binding;
+/**
+ * Fragmento del calendario
+ */
+public class CalendarFragment extends Fragment {
 
-    private SQLiteHandler dbHandler;
-
-    private EditText eventTitle;
-
+    private FragmentCalendarBinding binding;
 
     private CalendarView calendarView;
 
     private String selectedDate;
 
-    private SQLiteDatabase sqLiteDatabase;
 
     RecyclerView dayTasksView;
     private AppDatabase appDatabase;
@@ -50,10 +43,10 @@ public class GalleryFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        GalleryViewModel galleryViewModel =
-                new ViewModelProvider(this).get(GalleryViewModel.class);
+        CalendarViewModel calendarViewModel =
+                new ViewModelProvider(this).get(CalendarViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         calendarView = root.findViewById(R.id.calendarView);
 
@@ -85,11 +78,18 @@ public class GalleryFragment extends Fragment {
      * @param root
      */
     private void updateCurrentDayTasks(View root) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        String actualDate = String.valueOf(formatter.format(date));
-        selectedDate = actualDate;
-        readTasks(root);
+        LocalDate localDate;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            localDate = LocalDate.now();
+            int day = localDate.getDayOfMonth();
+            int month = localDate.getMonthValue();
+            int year =  localDate.getYear();
+            selectedDate =  Integer.toString(day) + "/" + Integer.toString(month) + "/" + Integer.toString(year);
+            readTasks(root);
+        }
+
+
     }
 
 
