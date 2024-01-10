@@ -1,7 +1,6 @@
 package com.example.gestoracademico.ui.ui.slideshow;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,26 +9,18 @@ import android.widget.*;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
+
 import com.example.gestoracademico.ui.ui.slideshow.templates.AcademicTemplateFragment;
 import com.example.gestoracademico.ui.ui.slideshow.templates.GenericTemplateFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.itextpdf.text.Document;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.gestoracademico.R;
 import com.example.gestoracademico.databinding.FragmentSlideshowBinding;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
-public class SlideshowFragment extends Fragment {
+public class PDFGeneratorFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
     private EditText subject;
@@ -49,8 +40,8 @@ public class SlideshowFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        PDFGeneratorViewModel slideshowViewModel =
+                new ViewModelProvider(this).get(PDFGeneratorViewModel.class);
 
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
