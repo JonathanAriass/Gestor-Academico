@@ -14,11 +14,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,17 +36,21 @@ import com.example.gestoracademico.modelo.File;
  */
 public class TaskConsultaFragment extends Fragment {
 
+    private static final String ARG_ID = "id";
     private static final String ARG_TITULO = "titulo";
     private static final String ARG_DATE = "fecha";
 
     private static final String ARG_FILEID = "fileID";
 
     private static final String ARG_PRIORIDAD = "prioridad";
+    private static final String ARG_NOTA = "nota";
 
+    private int id;
     private String titulo;
     private String fecha;
     private int documentID;
     private int prioridad;
+    private String nota;
 
     private @DrawableRes int roundedSquareBackground = R.drawable.box;
 
@@ -56,10 +63,12 @@ public class TaskConsultaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            id = getArguments().getInt(ARG_ID);
             titulo = getArguments().getString(ARG_TITULO);
             fecha = getArguments().getString(ARG_DATE);
             documentID = getArguments().getInt(ARG_FILEID);
             prioridad = getArguments().getInt(ARG_PRIORIDAD);
+            nota = getArguments().getString(ARG_NOTA);
         }
     }
 
@@ -99,6 +108,43 @@ public class TaskConsultaFragment extends Fragment {
             }
         });
 
+        Button btSave = view.findViewById(R.id.btSaveNote);
+
+        EditText edTextNota = view.findViewById(R.id.edTextNota);
+        edTextNota.setText(nota);
+        edTextNota.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Comprobamos si el texto cambia respecto a la version anterior y cambiamos el
+                // estado del boton enabled dependiendo
+                btSave.setEnabled(hasNewValue(s.toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        btSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                AppDatabase db = AppDatabase.getDatabase(getContext());
+                int updated = db.getTaskDAO().updateTaskNote(edTextNota.getText().toString(), id);
+                if (updated > 0) {
+                    Toast.makeText(getContext(), "Nota actualizada correctamente.", Toast.LENGTH_SHORT).show();
+                    btSave.setEnabled(false);
+                } else {
+                    Toast.makeText(getContext(), "No se ha actualizado la nota, pruebe de nuevo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -112,6 +158,10 @@ public class TaskConsultaFragment extends Fragment {
      */
     private void setPriorityColor() {
 
+    }
+
+    private boolean hasNewValue(String string) {
+        return !nota.equals(string);
     }
 
     /**

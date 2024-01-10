@@ -17,6 +17,8 @@ import android.widget.EditText;
 import com.example.gestoracademico.modelo.Task;
 import com.example.gestoracademico.ui.ui.home.HomeFragment;
 
+import java.util.Optional;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText descriptionInput;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public void saveTask(int indexTask){
 
         Log.i("VALUES:", descriptionInput.getText().toString());
-        Task task = new Task(9999, descriptionInput.getText().toString(), fechaInput.getText().toString(), 0, 0);
+        Task task = new Task(9999, descriptionInput.getText().toString(), fechaInput.getText().toString(), 0, 0, Optional.empty());
 
 
 

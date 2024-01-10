@@ -142,42 +142,6 @@ public class TaskRecycler extends AppCompatActivity {
     }
 
 
-    protected void loadTasks() {
-        Task task = null;
-        listaTareas = new ArrayList<>();
-        InputStream file;
-        InputStreamReader reader;
-        BufferedReader bufferedReader = null;
-
-        try {
-            file = getAssets().open("tasks.csv");
-            reader = new InputStreamReader(file);
-            bufferedReader = new BufferedReader(reader);
-
-            String line = null;
-            bufferedReader.readLine();
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] data = line.split(";");
-                if (data != null && data.length >= 5) {
-                    if (data.length==3) {
-                        task = new Task(Integer.parseInt(data[0]), data[1], data[2], 0, 0);
-                        appDatabase.getTaskDAO().add(task);
-                    }
-                    Log.d("loadTasks()", task.toString());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
 
     /**

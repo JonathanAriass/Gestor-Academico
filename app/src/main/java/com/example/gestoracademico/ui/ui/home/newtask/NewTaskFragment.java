@@ -1,11 +1,14 @@
 package com.example.gestoracademico.ui.ui.home.newtask;
 
 import android.app.DatePickerDialog;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +18,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gestoracademico.R;
 import com.example.gestoracademico.datos.AppDatabase;
 import com.example.gestoracademico.modelo.Task;
 import com.example.gestoracademico.ui.ui.home.newtask.dialog.DatePickerFragment;
+
+import java.util.Optional;
 
 public class NewTaskFragment extends Fragment {
 
@@ -65,25 +71,65 @@ public class NewTaskFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
+                TextView txViewTitle = view.findViewById(R.id.txTitulo);
                 EditText editTextTextMultiLine = view.findViewById(R.id.editTextTextMultiLine);
+                TextView txViewDate = view.findViewById(R.id.txTitulo2);
                 EditText editTextDate2 = view.findViewById(R.id.editTextDate2);
                 Spinner dpPrioridad = view.findViewById(R.id.dpPrioridad);
+                EditText editTextNota = view.findViewById(R.id.editTextTextMultiLine2);
                 // Comprobar datos correctos
-                // Guardar en la base de datos
-                AppDatabase db = AppDatabase.getDatabase(getContext());
-                Task task = new Task(db.getTaskDAO().getLastId() + 1, editTextTextMultiLine.getText().toString(), editTextDate2.getText().toString(), getPrioridad(dpPrioridad), 0);
+                if (isValidData(editTextTextMultiLine.getText().toString(), editTextDate2.getText().toString())) {
+                    // Guardar en la base de datos
+                    AppDatabase db = AppDatabase.getDatabase(getContext());
+                    Task task = new Task(db.getTaskDAO().getLastId() + 1, editTextTextMultiLine.getText().toString(), editTextDate2.getText().toString(), getPrioridad(dpPrioridad), 0, Optional.of(String.valueOf(editTextNota.getText())));
 
-                db.getTaskDAO().add(task);
-                // Mostar snackbar con mensaje de creacion de tarea correcta
-                showToast("Tarea creada correctamente");
-                // Volver a la vista de home
-                Bundle args = new Bundle();
-                //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
-                Navigation.findNavController(view).navigate(R.id.action_newTask_to_home, args);
+                    db.getTaskDAO().add(task);
+                    // Mostar snackbar con mensaje de creacion de tarea correcta
+                    showToast("Tarea creada correctamente");
+                    // Volver a la vista de home
+                    Bundle args = new Bundle();
+                    //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
+                    Navigation.findNavController(view).navigate(R.id.action_newTask_to_home, args);
+                } else {
+                    showToast("Datos invalidos, pruebe de nuevo.");
+                    highlightInvalidFields(editTextTextMultiLine, txViewTitle, editTextDate2, txViewDate);
+                }
             }
         });
         return view;
+    }
+
+    private boolean isValidData(String title, String date) {
+        return !title.isEmpty() && !date.isEmpty();
+    }
+
+    private void highlightInvalidFields(EditText editTextTextMultiLine, TextView title, EditText editTextDate2, TextView date) {
+        int red = android.R.color.holo_red_light;
+        int black = android.R.color.black;
+        if (TextUtils.isEmpty(editTextTextMultiLine.getText().toString())) {
+            highlightEditText(editTextTextMultiLine, title, red);
+        } else {
+            highlightEditText(editTextTextMultiLine, title, black);
+        }
+
+        if (TextUtils.isEmpty(editTextDate2.getText().toString())) {
+            highlightEditText(editTextDate2, date, red);
+        } else {
+            highlightEditText(editTextDate2, date, black);
+        }
+
+    }
+
+    /**
+     * Metodo para cambiar el color del conjunto de input (EditText y TextView)
+     * @param editText
+     * @param color
+     */
+    private void highlightEditText(EditText editText, TextView textView, int color) {
+        int highlightColor = ContextCompat.getColor(getContext(), color);
+        editText.getBackground().setColorFilter(highlightColor, PorterDuff.Mode.SRC_ATOP);
+//        textView.getBackground().setColorFilter(highlightColor, PorterDuff.Mode.SRC_ATOP);
+        textView.setTextColor(ContextCompat.getColor(getContext(), color));
     }
 
     /**
