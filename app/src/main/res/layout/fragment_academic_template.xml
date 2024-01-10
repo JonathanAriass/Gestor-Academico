@@ -17,6 +17,34 @@
                 android:orientation="vertical"
         >
 
+                <Switch
+                    android:id="@+id/createTaskWithDocument"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
+                    android:text=" Generar Tarea" />
+
+                <EditText
+                    android:id="@+id/titleTaskfromDocument"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Título de la tarea"
+                    android:inputType="text"
+                    android:visibility="gone"
+                    android:autoSizeTextType="uniform"/>
+
+                <EditText
+                    android:id="@+id/dateTaskfromDocument"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha de la tarea"
+                    android:inputType="date"
+                    android:visibility="gone"
+                    android:clickable="true"
+                    android:maxLines="1"
+                    android:focusable="false"
+                    android:autoSizeTextType="uniform"/>
+
 
            
                 <EditText
@@ -62,33 +90,7 @@
                         android:focusable="false"
                         android:autoSizeTextType="uniform"/>
 
-            <Switch
-                android:id="@+id/createTaskWithDocument"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autoSizeTextType="uniform"
-                android:text=" Generar Tarea" />
 
-            <EditText
-                android:id="@+id/titleTaskfromDocument"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Título de la tarea"
-                android:inputType="text"
-                android:visibility="gone"
-                android:autoSizeTextType="uniform"/>
-
-            <EditText
-                android:id="@+id/dateTaskfromDocument"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Fecha de la tarea"
-                android:inputType="date"
-                android:visibility="gone"
-                android:clickable="true"
-                android:maxLines="1"
-                android:focusable="false"
-                android:autoSizeTextType="uniform"/>
 
                 <EditText
                         android:id="@+id/editTextContent"
