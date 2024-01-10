@@ -86,9 +86,9 @@ public class GenericTemplateFragment extends Fragment {
                     dateTask.setVisibility(View.VISIBLE);
                     titleTask.setVisibility(View.VISIBLE);
                 } else {
-                    dateTask.setVisibility(View.INVISIBLE);
+                    dateTask.setVisibility(View.GONE);
                     dateTask.setText("");
-                    titleTask.setVisibility(View.INVISIBLE);
+                    titleTask.setVisibility(View.GONE);
                     titleTask.setText("");
                 }
             }

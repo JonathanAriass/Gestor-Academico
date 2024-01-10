@@ -26,6 +26,9 @@ import com.example.gestoracademico.databinding.FragmentFileExplorerBinding;
 import java.io.File;
 
 
+/**
+ * Fragmento del Explorador de archivos
+ */
 public class FileExplorerFragment extends Fragment {
 
     private FragmentFileExplorerBinding binding;
@@ -47,27 +50,30 @@ public class FileExplorerFragment extends Fragment {
         if (!checkPermission()){
             //permission not allowed
             requestPermission();
-            Toast.makeText(getContext(),"Sin permisos",Toast.LENGTH_SHORT).show();
         }
 
-        //String path = Environment.getExternalStorageDirectory().getPath();
+
         String path = getContext().getExternalFilesDir("") + "/pdf";
 
         //Recupero el bundle con getArguments()
         Bundle bundle = getArguments();
+
         if (bundle != null)
         {
-            //Si no se recibe una key path, el que ya está en la inicialización  de path.
-            path = getArguments().getString("path", path);
+            String condition = getArguments().getString("first", "yes");
+            if(condition == "no") {
+                //Si no se recibe una key path, el que ya está en la inicialización  de path.
+                path = getArguments().getString("path", path);
+                bundle.putString("first", "yes");
+            }
         }
 
-
+        //Compruebo la creación de la carpeta de la aplicación
         File direction = new File(path);
         if(!direction.exists()){
             direction.mkdirs();
         }
 
-       // File direction = new File(path);
         File[] filesAndFolders = direction.listFiles();
 
         if(filesAndFolders==null || filesAndFolders.length ==0){
@@ -85,7 +91,10 @@ public class FileExplorerFragment extends Fragment {
 
     }
 
-
+    /**
+     * Comprueba si se tiene permisos
+     * @return
+     */
     private boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(result == PackageManager.PERMISSION_GRANTED){
@@ -94,6 +103,10 @@ public class FileExplorerFragment extends Fragment {
             return false;
     }
 
+
+    /**
+     * Solicita permisos
+     */
     private void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Toast.makeText(getContext(), "Storage permission is requires,please allow from settings", Toast.LENGTH_SHORT).show();
@@ -102,14 +115,6 @@ public class FileExplorerFragment extends Fragment {
         }
     }
 
-
-    public RecyclerView getFileList() {
-        return fileList;
-    }
-
-    public void setFileList(RecyclerView fileList) {
-        this.fileList = fileList;
-    }
 
     @Override
     public void onDestroyView() {

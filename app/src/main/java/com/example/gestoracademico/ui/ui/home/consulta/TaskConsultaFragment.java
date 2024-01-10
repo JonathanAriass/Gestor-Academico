@@ -139,6 +139,7 @@ public class TaskConsultaFragment extends Fragment {
                 if (updated > 0) {
                     Toast.makeText(getContext(), "Nota actualizada correctamente.", Toast.LENGTH_SHORT).show();
                     btSave.setEnabled(false);
+                    nota = edTextNota.getText().toString();
                 } else {
                     Toast.makeText(getContext(), "No se ha actualizado la nota, pruebe de nuevo.", Toast.LENGTH_SHORT).show();
                 }

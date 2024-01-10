@@ -24,6 +24,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+/**
+ * Adapter para la lista de tareas del calendario
+ */
 public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskListAdapter.TaskViewHolder>  {
 
     private List<Task> listaTareas;
@@ -92,7 +95,12 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
         }
 
 
-
+        /**
+         * Dará el valor de la descripción y de la fecha
+         * Y controlará el eliminar una tarea
+         * @param tarea
+         * @param listener
+         */
         public void asignarValoresComponentes(Task tarea, OnItemClickListener listener) {
             descripcion.setText(tarea.getDescripcion());
 
@@ -117,7 +125,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
                     Log.i("CLICKITEM", tarea.toString());
                     // Se debera de abrir el modo consulta
                     Bundle args = new Bundle();
