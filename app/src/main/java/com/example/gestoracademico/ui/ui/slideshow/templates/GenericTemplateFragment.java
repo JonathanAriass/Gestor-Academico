@@ -25,6 +25,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Optional;
 
 
 public class GenericTemplateFragment extends Fragment {
@@ -164,7 +165,7 @@ public class GenericTemplateFragment extends Fragment {
             db.getFileDAO().add(file);
 
             //Añadir tarea a base de datos
-            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 0, fileID);
+            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 0, fileID, Optional.empty());
             db.getTaskDAO().add(task);
 
         }

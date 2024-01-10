@@ -105,43 +105,7 @@ public class HomeFragment extends Fragment implements SwipeToDeleteCallback.Swip
         return root;
     }
 
-    protected void loadTasks() {
-        Task task = null;
-        listaTareas = new ArrayList<>();
-        InputStream file;
-        InputStreamReader reader;
-        BufferedReader bufferedReader = null;
 
-        try {
-            file = getContext().getAssets().open("tasks.csv");
-            reader = new InputStreamReader(file);
-            bufferedReader = new BufferedReader(reader);
-
-            String line = null;
-            bufferedReader.readLine();
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] data = line.split(";");
-                if (data != null) {
-                    if (data.length==3) {
-                        task = new Task(Integer.parseInt(data[0]), data[1], data[2], 0, 0);
-                        appDatabase.getTaskDAO().add(task);
-                        listaTareas.add(task);
-                    }
-                    Log.d("loadTasks()", task.toString());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

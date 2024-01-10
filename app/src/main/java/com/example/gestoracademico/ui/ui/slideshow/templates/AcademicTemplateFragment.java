@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Optional;
 
 
 public class AcademicTemplateFragment extends Fragment {
@@ -222,7 +223,7 @@ public class AcademicTemplateFragment extends Fragment {
             db.getFileDAO().add(file);
 
             //Añadir tarea a base de datos
-            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 0, fileID);
+            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 0, fileID, Optional.empty());
             db.getTaskDAO().add(task);
 
         }
