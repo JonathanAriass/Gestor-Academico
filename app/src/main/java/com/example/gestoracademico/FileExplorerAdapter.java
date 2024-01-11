@@ -175,7 +175,7 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
                                         for (int i = 0; i < files.length; i++) {
                                             boolean deleted = files[i].delete();
                                             if (deleted) {
-                                                deleteFilesAndTasks(selectedFile);
+                                                deleteFilesAndTasks(files[i]);
                                                 v.setVisibility(View.GONE);
                                             }
                                         }
