@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.gestoracademico.ui.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_newTask"
+            app:destination="@+id/nav_newTask" />
+        <action
+            android:id="@+id/action_home_to_consultaTask"
+            app:destination="@+id/nav_consultaTask"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_newTask"
+        android:name="com.example.gestoracademico.ui.ui.home.newtask.NewTaskFragment"
+        android:label="Nueva Tarea"
+        tools:layout="@layout/fragment_new_task">
+        <action
+            android:id="@+id/action_newTask_to_home"
+            app:destination="@+id/nav_home"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_consultaTask"
+        android:name="com.example.gestoracademico.ui.ui.home.consulta.TaskConsultaFragment"
+        android:label="Ver Tarea"
+        tools:layout="@layout/fragment_task_consulta">
+        <action
+            android:id="@+id/action_consultaTask_to_home"
+            app:destination="@+id/nav_home" />
+        <action
+            android:id="@+id/action_consultaTask_to_calendar"
+            app:destination="@+id/nav_gallery" />
+        <action
+            android:id="@+id/action_consultaTask_to_pdfViewer"
+            app:destination="@+id/nav_pdfViewer"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.gestoracademico.ui.ui.calendar.CalendarFragment"
+        android:label="@string/menu_calendar"
+        tools:layout="@layout/fragment_calendar">
+        <action
+            android:id="@+id/action_calendar_to_consultaTask"
+            app:destination="@+id/nav_consultaTask"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.gestoracademico.ui.ui.pdfgenerator.PDFGeneratorFragment"
+        android:label="@string/menu_export"
+        tools:layout="@layout/fragment_slideshow">
+        <action
+            android:id="@+id/action_Exportar_to_pdfViewer"
+            app:destination="@+id/nav_pdfViewer"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_explorer"
+        android:name="com.example.gestoracademico.ui.ui.filexplorer.FileExplorerFragment"
+        android:label="@string/file_explorer"
+        tools:layout="@layout/fragment_file_explorer">
+        <action
+        android:id="@+id/action_fileExporer_to_fileExporer"
+        app:destination="@+id/nav_explorer"
+        />
+        <action
+            android:id="@+id/action_fileExporer_to_pdfViewer"
+            app:destination="@+id/nav_pdfViewer"
+            />
+    </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_academic_template"-->
+<!--        android:name="com.example.gestoracademico.ui.ui.slideshow.templates.AcademicTemplateFragment"-->
+<!--        android:label="@string/academicTemplate"-->
+<!--        tools:layout="@layout/fragment_academic_template">-->
+<!--        <action-->
+<!--            android:id="@+id/action_Academic_to_pdfViewer"-->
+<!--            app:destination="@+id/nav_pdfViewer"-->
+<!--            />-->
+<!--    </fragment>-->
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_generic_template"-->
+<!--        android:name="com.example.gestoracademico.ui.ui.slideshow.templates.GenericTemplateFragment"-->
+<!--        android:label="@string/genericTemplate"-->
+<!--        tools:layout="@layout/fragment_generic">-->
+<!--        <action-->
+<!--            android:id="@+id/action_Generic_to_pdfViewer"-->
+<!--            app:destination="@+id/nav_pdfViewer"-->
+<!--            />-->
+<!--    </fragment>-->
+
+    <fragment
+        android:id="@+id/nav_pdfViewer"
+        android:name="com.example.gestoracademico.ui.ui.pdf.PdfFragment"
+        android:label="@string/pdfViewer"
+        tools:layout="@layout/fragment_pdf" />
+
+
+
+
+
+
+
+
+</navigation>

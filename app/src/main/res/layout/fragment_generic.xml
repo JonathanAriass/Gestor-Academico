@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/createTaskWithDocumentGeneric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="Generar tarea" />
+
+            <EditText
+                android:id="@+id/titleTaskfromDocumentGeneric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Título de la tarea"
+                android:inputType="text"
+                android:visibility="gone"
+                android:autoSizeTextType="uniform"/>
+
+            <EditText
+                android:id="@+id/dateTaskfromDocumentGeneric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fecha de la tarea"
+                android:clickable="true"
+                android:maxLines="1"
+                android:focusable="false"
+                android:inputType="date"
+                android:visibility="gone"
+                android:autoSizeTextType="uniform"/>
+
+            <EditText
+                    android:id="@+id/editTextCategoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Carpeta/Categoria"
+                    android:inputType="textMultiLine"/>
+            <EditText
+                    android:id="@+id/editTextTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Título del PDF"
+                    android:inputType="text" />
+
+            <EditText
+                    android:id="@+id/editTextContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contenido del PDF"
+                    android:inputType="textMultiLine" />
+
+
+
+            
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
