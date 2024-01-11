@@ -46,7 +46,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task tareaActual= listaTareas.get(position);
-        Log.i("Lista","Visualiza elemento: "+tareaActual);
         holder.asignarValoresComponentes(tareaActual, listener);
     }
 
@@ -86,8 +85,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
-                    Log.i("CLICKITEM", tarea.toString());
                     // Se debera de abrir el modo consulta
                     Bundle args = new Bundle();
 
@@ -102,19 +99,23 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskVi
                 }
             });
 
-            int newColor = Color.parseColor("#ffffff");
-            switch (tarea.getPrioridad()) {
-                case 0:
-                    newColor = Color.parseColor("#7484cf");
-                    break;
-                case 1:
-                    newColor = Color.parseColor("#d1db86");
-                    break;
-                case 2:
-                    newColor = Color.parseColor("#d68181");
-                    break;
+            if (tarea.getPrioridad() >= 0 && tarea.getPrioridad() < 3) {
+                int newColor = Color.parseColor("#ffffff");
+                switch (tarea.getPrioridad()) {
+                    case 0:
+                        newColor = Color.parseColor("#7484cf");
+                        break;
+                    case 1:
+                        newColor = Color.parseColor("#d1db86");
+                        break;
+                    case 2:
+                        newColor = Color.parseColor("#d68181");
+                        break;
+                }
+                imagen.setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
+            } else {
+                imagen.setImageResource(R.drawable.ic_baseline_insert_drive_file_24);
             }
-            imagen.setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
         }
     }
 }

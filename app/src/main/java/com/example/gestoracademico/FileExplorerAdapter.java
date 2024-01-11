@@ -142,7 +142,6 @@ public class FileExplorerAdapter extends RecyclerView.Adapter<FileExplorerAdapte
 
                                 // Obtén la URI del archivo seleccionado
                                 Uri fileUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", new File(selectedFile.getAbsolutePath()));
-                                Log.i(String.valueOf(fileUri),"prueba");
                                 // Agrega la URI al intent
                                 intentShareFile.putExtra(Intent.EXTRA_STREAM, fileUri);
                                 intentShareFile.putExtra(Intent.EXTRA_SUBJECT,"Mira estos apuntes!!");
