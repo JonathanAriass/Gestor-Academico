@@ -53,6 +53,9 @@ public class Task implements Parcelable {
         nota = in.readString();
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
