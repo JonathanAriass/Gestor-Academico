@@ -108,7 +108,6 @@ public class CalendarFragment extends Fragment {
                         @Override
                         public void onItemClick(Task tarea) {
 
-                            Log.i("Click en tarea", "Click");
                         }
                     });
             dayTasksView.setAdapter(tlAdapter);

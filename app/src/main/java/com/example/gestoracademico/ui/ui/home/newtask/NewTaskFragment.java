@@ -1,6 +1,8 @@
 package com.example.gestoracademico.ui.ui.home.newtask;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 
@@ -9,10 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -31,7 +33,7 @@ import java.util.Optional;
 public class NewTaskFragment extends Fragment {
 
     public NewTaskFragment() {
-        // Required empty public constructor
+        // Constructor vacio necesario
     }
 
 
@@ -39,9 +41,16 @@ public class NewTaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_new_task, container, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Hide the keyboard
+                hideKeyboard(view);
+            }
+        });
+
         // Inflate the layout for this fragment
         Button btSave = view.findViewById(R.id.btGuardar);
-        Log.i("BtSave", btSave.toString());
 
         Spinner dpPrioridad = view.findViewById(R.id.dpPrioridad);
 
@@ -99,10 +108,29 @@ public class NewTaskFragment extends Fragment {
         return view;
     }
 
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+    /**
+     * Metodo que comprueba si la tarea a crear contiene datos validos
+     * @param title Texto a comprobar para el titulo
+     * @param date Texto a comprobar para la fecha
+     * @return true si es una tarea valida, false en otro caso
+     */
     private boolean isValidData(String title, String date) {
         return !title.isEmpty() && !date.isEmpty();
     }
 
+    /**
+     * Metodo que cambia el color de los input dependiendo de su validez
+     * @param editTextTextMultiLine Campo del titulo de la tarea
+     * @param title Titulo del input del titulo de la tarea
+     * @param editTextDate2 Campo de la fecha de la tarea
+     * @param date Titulo del input de la fecha de la tarea
+     */
     private void highlightInvalidFields(EditText editTextTextMultiLine, TextView title, EditText editTextDate2, TextView date) {
         int red = android.R.color.holo_red_light;
         int black = android.R.color.black;
@@ -122,13 +150,12 @@ public class NewTaskFragment extends Fragment {
 
     /**
      * Metodo para cambiar el color del conjunto de input (EditText y TextView)
-     * @param editText
-     * @param color
+     * @param editText EditText al que se le debera de cambiar el color
+     * @param color Color con el que aplicaremos el filtro
      */
     private void highlightEditText(EditText editText, TextView textView, int color) {
         int highlightColor = ContextCompat.getColor(getContext(), color);
         editText.getBackground().setColorFilter(highlightColor, PorterDuff.Mode.SRC_ATOP);
-//        textView.getBackground().setColorFilter(highlightColor, PorterDuff.Mode.SRC_ATOP);
         textView.setTextColor(ContextCompat.getColor(getContext(), color));
     }
 

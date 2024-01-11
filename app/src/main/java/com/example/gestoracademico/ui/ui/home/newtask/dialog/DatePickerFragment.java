@@ -10,10 +10,18 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Clase para desarrollar e implementar un seleccionador de fechas
+ */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private DatePickerDialog.OnDateSetListener listener;
 
+    /**
+     * Metodo para crear una instancia del dialogo para seleccionar fechas
+     * @param listener Listener para seleccionar la fecha
+     * @return Instancia del fragmento
+     */
     public static DatePickerFragment newInstance(DatePickerDialog.OnDateSetListener listener) {
         DatePickerFragment fragment = new DatePickerFragment();
         fragment.setListener(listener);
@@ -24,6 +32,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         this.listener = listener;
     }
 
+    /**
+     * Metodo que asigna el calendario al dialogo
+     *
+     * @param savedInstanceState The last saved instance state of the Fragment,
+     * or null if this is a freshly created Fragment.
+     *
+     * @return Instancia del dialogo
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Locale locale =  new Locale("es", "ES");

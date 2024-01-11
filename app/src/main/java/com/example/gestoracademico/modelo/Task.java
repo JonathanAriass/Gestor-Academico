@@ -31,17 +31,6 @@ public class Task implements Parcelable {
 
 
 
-
-
-
-
-//    public Task(int id, String descripcion, String fecha, String imagen) {
-//        this.id = id;
-//        this.descripcion = descripcion;
-//        this.fecha = fecha;
-//        this.imagen = imagen;
-//    }
-
     public Task(int id, String descripcion, String fecha, int prioridad, int fk_pdf, Optional<String> nota) {
         this.id = id;
         this.descripcion = descripcion;

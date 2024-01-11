@@ -1,17 +1,19 @@
-package com.example.gestoracademico.ui.ui.slideshow;
+package com.example.gestoracademico.ui.ui.pdfgenerator;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.gestoracademico.ui.ui.slideshow.templates.AcademicTemplateFragment;
-import com.example.gestoracademico.ui.ui.slideshow.templates.GenericTemplateFragment;
+import com.example.gestoracademico.ui.ui.pdfgenerator.templates.AcademicTemplateFragment;
+import com.example.gestoracademico.ui.ui.pdfgenerator.templates.GenericTemplateFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
@@ -45,6 +47,14 @@ public class PDFGeneratorFragment extends Fragment {
 
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Hide the keyboard
+                hideKeyboard(root);
+            }
+        });
 
         fragmentContainer = root.findViewById(R.id.templateContainer);
         templateSelection = root.findViewById(R.id.templateSelection);
@@ -81,11 +91,9 @@ public class PDFGeneratorFragment extends Fragment {
             public void onClick(View v) {
 
                 if(templateChecked == R.id.radioGenericTemplate){
-                        Log.i("prueba","GENERICA");
                     ((GenericTemplateFragment) fragment).generatePDF(v);
 
                 }else if(templateChecked == R.id.radioAcademicTemplate){
-                    Log.i("prueba","ACADEMICA");
                     ((AcademicTemplateFragment) fragment).generatePDF(v);
                 }
 
@@ -94,6 +102,11 @@ public class PDFGeneratorFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     @Override

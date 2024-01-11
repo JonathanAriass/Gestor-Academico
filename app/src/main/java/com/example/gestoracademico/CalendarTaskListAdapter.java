@@ -57,7 +57,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task tareaActual= listaTareas.get(position);
-        Log.i("Lista","Visualiza elemento: "+tareaActual);
         holder.asignarValoresComponentes(tareaActual, listener);
     }
 
@@ -125,7 +124,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    Log.i("CLICKITEM", tarea.toString());
                     // Se debera de abrir el modo consulta
                     Bundle args = new Bundle();
 

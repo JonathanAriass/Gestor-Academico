@@ -1,13 +1,10 @@
 package com.example.gestoracademico.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.gestoracademico.NewTask;
 import com.example.gestoracademico.R;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -18,13 +15,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gestoracademico.databinding.ActivityNavigationDrawerBinding;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 public class NavigationDrawer extends AppCompatActivity {
 
