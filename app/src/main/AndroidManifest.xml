@@ -15,7 +15,7 @@
         <activity
             android:name=".ui.NavigationDrawer"
             android:exported="true"
-            android:label="@string/title_activity_navigation_drawer"
+            android:label="@string/app_name"
             android:theme="@style/Theme.GestorAcademico.NoActionBar"
             android:screenOrientation="locked">
             <intent-filter>
@@ -31,13 +31,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".TaskRecycler"
-            android:exported="true">
-        </activity>
-        <activity
-            android:name=".NewTask"
-            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
