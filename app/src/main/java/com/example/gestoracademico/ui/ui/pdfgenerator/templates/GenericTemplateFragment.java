@@ -1,10 +1,9 @@
-package com.example.gestoracademico.ui.ui.slideshow.templates;
+package com.example.gestoracademico.ui.ui.pdfgenerator.templates;
 
 import android.app.DatePickerDialog;
-import android.content.pm.PackageManager;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -25,6 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Optional;
 
 
 public class GenericTemplateFragment extends Fragment {
@@ -85,9 +85,9 @@ public class GenericTemplateFragment extends Fragment {
                     dateTask.setVisibility(View.VISIBLE);
                     titleTask.setVisibility(View.VISIBLE);
                 } else {
-                    dateTask.setVisibility(View.INVISIBLE);
+                    dateTask.setVisibility(View.GONE);
                     dateTask.setText("");
-                    titleTask.setVisibility(View.INVISIBLE);
+                    titleTask.setVisibility(View.GONE);
                     titleTask.setText("");
                 }
             }
@@ -97,7 +97,6 @@ public class GenericTemplateFragment extends Fragment {
 
         return view;
     }
-
     public void generatePDF(View v){
         if (checkInputs()) {
             try {
@@ -105,7 +104,7 @@ public class GenericTemplateFragment extends Fragment {
                 Document document = new Document();
 
                 String userFolder = category.getText().toString().toUpperCase();
-                ;
+
 
                 String carpeta = "/pdf";
                 String path = getContext().getExternalFilesDir("") + carpeta + "/" + userFolder;
@@ -164,7 +163,7 @@ public class GenericTemplateFragment extends Fragment {
             db.getFileDAO().add(file);
 
             //Añadir tarea a base de datos
-            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 0, fileID);
+            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 9, fileID, Optional.empty());
             db.getTaskDAO().add(task);
 
         }

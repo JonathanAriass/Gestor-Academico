@@ -1,7 +1,8 @@
-package com.example.gestoracademico.ui.ui.slideshow.templates;
+package com.example.gestoracademico.ui.ui.pdfgenerator.templates;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -22,9 +23,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.time.LocalDate;
-import java.util.Date;
-
+import java.util.Optional;
+import android.content.Context;
 
 public class AcademicTemplateFragment extends Fragment {
     private EditText title;
@@ -110,9 +110,9 @@ public class AcademicTemplateFragment extends Fragment {
                     dateTask.setVisibility(View.VISIBLE);
                     titleTask.setVisibility(View.VISIBLE);
                 }else{
-                    dateTask.setVisibility(View.INVISIBLE);
+                    dateTask.setVisibility(View.GONE);
                     dateTask.setText("");
-                    titleTask.setVisibility(View.INVISIBLE);
+                    titleTask.setVisibility(View.GONE);
                     titleTask.setText("");
                 }
             }
@@ -124,28 +124,6 @@ public class AcademicTemplateFragment extends Fragment {
     }
 
     public void generatePDF(View v){
-        //Validaciones inputs
-        if(title.getText().toString().isEmpty()){
-            showToast("El campo del titulo no puede ser vacio");
-            return;
-        }
-        if(asignatura.getText().toString().isEmpty()){
-            showToast("El campo asignatura no puede ser vacio");
-            return;
-        }
-        if(tema.getText().toString().isEmpty()){
-            showToast("El campo tema no puede ser vacio");
-            return;
-        }
-        if(fecha.getText().toString().isEmpty()){
-            showToast("El campo fecha no puede ser vacio");
-            return;
-        }
-
-        if(content.getText().toString().isEmpty()){
-            showToast("El campo del contenido no puede ser vacio");
-            return;
-        }
 
         String fileName = title.getText().toString() + ".pdf";
         Document document = new Document();
@@ -222,7 +200,7 @@ public class AcademicTemplateFragment extends Fragment {
             db.getFileDAO().add(file);
 
             //Añadir tarea a base de datos
-            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 0, fileID);
+            Task task = new Task(db.getTaskDAO().getLastId() + 1, titleTask.getText().toString(), dateTask.getText().toString(), 9, fileID, Optional.empty());
             db.getTaskDAO().add(task);
 
         }
@@ -242,9 +220,6 @@ public class AcademicTemplateFragment extends Fragment {
             showToast("Añada un tema para el documento");
             return false;
         }else if(fecha.getText().toString().trim().isEmpty()){
-            /**
-             * TODO: Añadir validación de fecha válida
-             */
             showToast("Añada una fecha para el documento");
             return false;
         }else if(asignatura.getText().toString().trim().isEmpty()){
@@ -253,9 +228,6 @@ public class AcademicTemplateFragment extends Fragment {
         }else if(createTaskSwitch.isChecked()){
             if(titleTask.getText().toString().trim().isEmpty() ||
                 dateTask.getText().toString().trim().isEmpty()){
-                /**
-                 * TODO: Añadir validación de fecha de tarea válida
-                 */
                 showToast("Añada un título y fecha para la creación de la tarea");
                 return false;
             }

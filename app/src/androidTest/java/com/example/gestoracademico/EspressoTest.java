@@ -13,6 +13,7 @@ import com.example.gestoracademico.ui.NavigationDrawer;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -87,9 +88,9 @@ public class EspressoTest {
                                 childAtPosition(
                                         withId(R.id.nav_host_fragment_content_navigation_drawer),
                                         0),
-                                2),
+                                3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Prueba Calendario"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("Prueba calendario"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.editTextDate2),
@@ -97,7 +98,7 @@ public class EspressoTest {
                                 childAtPosition(
                                         withId(R.id.nav_host_fragment_content_navigation_drawer),
                                         0),
-                                3),
+                                4),
                         isDisplayed()));
         appCompatEditText2.perform(click());
 
@@ -116,7 +117,7 @@ public class EspressoTest {
                                 childAtPosition(
                                         withId(R.id.nav_host_fragment_content_navigation_drawer),
                                         0),
-                                4),
+                                5),
                         isDisplayed()));
         materialButton2.perform(click());
 
@@ -152,8 +153,32 @@ public class EspressoTest {
                         isDisplayed()));
         floatingActionButton2.perform(click());
 
+        ViewInteraction appCompatImageButton2 = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("com.google.android.material.appbar.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton2.perform(click());
+
+        ViewInteraction navigationMenuItemView2 = onView(
+                allOf(withId(R.id.nav_home),
+                        childAtPosition(
+                                allOf(withId(com.google.android.material.R.id.design_navigation_view),
+                                        childAtPosition(
+                                                withId(R.id.nav_view),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        navigationMenuItemView2.perform(click());
+
         //Comprobamos que se ha borrado la tarea
-        onView(withText("Prueba Calendario")).check(matches(not(isDisplayed())));
+
+        AppDatabase db = AppDatabase.getDatabase(ApplicationProvider.getApplicationContext());
+        Assert.assertEquals(0,db.getTaskDAO().getAll().size());
 
     }
 
@@ -181,34 +206,51 @@ public class EspressoTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
 
-
-
-        ViewInteraction appCompatEditText3 = onView(
+        ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.editTextTitle),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
-                                1)));
-        appCompatEditText3.perform(scrollTo(), replaceText("JavaScript"), closeSoftKeyboard());
+                                4)));
+        appCompatEditText.perform(scrollTo(), replaceText("JavaScript"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.editTextContent),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                5)));
+        appCompatEditText2.perform(scrollTo(), replaceText("Lenguaje Interprtetado"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.editTextContent), withText("Lenguaje Interprtetado"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                5)));
+        appCompatEditText3.perform(scrollTo(), click());
 
         ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.editTextContent),
+                allOf(withId(R.id.editTextContent), withText("Lenguaje Interprtetado"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
-                                2)));
-        appCompatEditText4.perform(scrollTo(), click());
+                                5)));
+        appCompatEditText4.perform(scrollTo(), replaceText("Lenguaje Interpretado, dialecto de ECMAScript"));
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.editTextContent),
+                allOf(withId(R.id.editTextContent), withText("Lenguaje Interpretado, dialecto de ECMAScript"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
-                                2)));
-        appCompatEditText5.perform(scrollTo(), replaceText("Lenguaje interpretado, dialecto de ECMAScript, orientado a obetos basado end prototipos , imperative, debilmente tipado y dinamico"), closeSoftKeyboard());
+                                5),
+                        isDisplayed()));
+        appCompatEditText5.perform(closeSoftKeyboard());
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.fab),
@@ -282,59 +324,42 @@ public class EspressoTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.editTextTitle),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                1)));
-        appCompatEditText.perform(scrollTo(), replaceText("Prueba pdf con ta"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.editTextContent),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                2)));
-        appCompatEditText2.perform(scrollTo(), replaceText("prueba"), closeSoftKeyboard());
-
         ViewInteraction switch_ = onView(
                 allOf(withId(R.id.createTaskWithDocumentGeneric), withText("Generar tarea"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
-                                3)));
+                                0)));
         switch_.perform(scrollTo(), click());
 
-        ViewInteraction appCompatEditText3 = onView(
+        ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.titleTaskfromDocumentGeneric),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
-                                4)));
-        appCompatEditText3.perform(scrollTo(), click());
+                                1)));
+        appCompatEditText.perform(scrollTo(), replaceText("Prueba pdf con tarea"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.titleTaskfromDocumentGeneric),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                4)));
-        appCompatEditText4.perform(scrollTo(), replaceText("Prueba pdf con tarea"), closeSoftKeyboard());
+        ViewInteraction constraintLayout = onView(
+                allOf(childAtPosition(
+                                allOf(withId(R.id.nav_host_fragment_content_navigation_drawer),
+                                        childAtPosition(
+                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        constraintLayout.perform(click());
 
-        ViewInteraction appCompatEditText5 = onView(
+        ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.dateTaskfromDocumentGeneric),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
-                                5)));
-        appCompatEditText5.perform(scrollTo(), click());
+                                2)));
+        appCompatEditText2.perform(scrollTo(), click());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(android.R.id.button1), withText("OK"),
@@ -344,6 +369,52 @@ public class EspressoTest {
                                         0),
                                 3)));
         materialButton.perform(scrollTo(), click());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.editTextTitle),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                4)));
+        appCompatEditText3.perform(scrollTo(), replaceText("Prueba pdf con tarea1"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.editTextTitle), withText("Prueba pdf con tarea1"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                4)));
+        appCompatEditText4.perform(scrollTo(), click());
+
+        ViewInteraction appCompatEditText5 = onView(
+                allOf(withId(R.id.editTextTitle), withText("Prueba pdf con tarea1"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                4)));
+        appCompatEditText5.perform(scrollTo(), replaceText("Prueba pdf con tarea"));
+
+        ViewInteraction appCompatEditText6 = onView(
+                allOf(withId(R.id.editTextTitle), withText("Prueba pdf con tarea"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                4),
+                        isDisplayed()));
+        appCompatEditText6.perform(closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText7 = onView(
+                allOf(withId(R.id.editTextContent),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.ScrollView")),
+                                        0),
+                                5)));
+        appCompatEditText7.perform(scrollTo(), replaceText("prueba"), closeSoftKeyboard());
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.fab),
@@ -387,7 +458,6 @@ public class EspressoTest {
                                 1),
                         isDisplayed()));
         navigationMenuItemView2.perform(click());
-
         //Comprobamos que se ha creado la tarea
         onView(withText("Prueba pdf con tarea")).check(matches(isDisplayed()));
 

@@ -24,6 +24,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+/**
+ * Adapter para la lista de tareas del calendario
+ */
 public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskListAdapter.TaskViewHolder>  {
 
     private List<Task> listaTareas;
@@ -54,7 +57,6 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task tareaActual= listaTareas.get(position);
-        Log.i("Lista","Visualiza elemento: "+tareaActual);
         holder.asignarValoresComponentes(tareaActual, listener);
     }
 
@@ -92,7 +94,12 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
         }
 
 
-
+        /**
+         * Dará el valor de la descripción y de la fecha
+         * Y controlará el eliminar una tarea
+         * @param tarea
+         * @param listener
+         */
         public void asignarValoresComponentes(Task tarea, OnItemClickListener listener) {
             descripcion.setText(tarea.getDescripcion());
 
@@ -117,15 +124,15 @@ public class CalendarTaskListAdapter extends RecyclerView.Adapter<CalendarTaskLi
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-//                    Toast.makeText(this, "Prueba", Toast.LENGTH_LONG).show();
-                    Log.i("CLICKITEM", tarea.toString());
                     // Se debera de abrir el modo consulta
                     Bundle args = new Bundle();
 
+                    args.putInt("id", tarea.getId());
                     args.putString("titulo", tarea.getDescripcion());
                     args.putString("fecha", tarea.getFecha());
                     args.putInt("fileID", tarea.getFk_pdf());
                     args.putInt("prioridad", tarea.getPrioridad());
+                    args.putString("nota", tarea.getNota());
                     //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.
                     Navigation.findNavController(v).navigate(R.id.action_calendar_to_consultaTask, args);
                 }

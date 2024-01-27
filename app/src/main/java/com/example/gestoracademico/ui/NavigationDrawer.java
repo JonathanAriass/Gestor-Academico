@@ -1,13 +1,10 @@
 package com.example.gestoracademico.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.gestoracademico.NewTask;
 import com.example.gestoracademico.R;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -18,13 +15,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gestoracademico.databinding.ActivityNavigationDrawerBinding;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 public class NavigationDrawer extends AppCompatActivity {
 
@@ -39,17 +29,10 @@ public class NavigationDrawer extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarNavigationDrawer.toolbar);
-//        binding.appBarNavigationDrawer.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_explorer)
                 .setOpenableLayout(drawer)
@@ -61,8 +44,6 @@ public class NavigationDrawer extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
         return true;
     }
 
@@ -73,6 +54,11 @@ public class NavigationDrawer extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * Metodo para lanzar el fragmento de creacion de tarea
+     *
+     * @param view
+     */
     public void crearNuevaTarea(View view) {
         Bundle args = new Bundle();
         //Recupero la navegación y especifico la acción (la definida en el paso anterior) pasándole el bundle.

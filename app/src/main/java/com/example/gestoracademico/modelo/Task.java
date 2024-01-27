@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity(tableName = "tasks")
 public class Task implements Parcelable {
@@ -18,6 +19,8 @@ public class Task implements Parcelable {
     private String descripcion;
     private String fecha;
     private int prioridad;
+
+    private String nota;
 
     @Nullable
     private int fk_pdf;
@@ -28,22 +31,14 @@ public class Task implements Parcelable {
 
 
 
-
-
-//    public Task(int id, String descripcion, String fecha, String imagen) {
-//        this.id = id;
-//        this.descripcion = descripcion;
-//        this.fecha = fecha;
-//        this.imagen = imagen;
-//    }
-
-    public Task(int id, String descripcion, String fecha, int prioridad, int fk_pdf) {
+    public Task(int id, String descripcion, String fecha, int prioridad, int fk_pdf, Optional<String> nota) {
         this.id = id;
         this.descripcion = descripcion;
         this.fecha = fecha;
 
         this.prioridad = prioridad;
         this.fk_pdf = fk_pdf;
+        this.nota = nota.orElse("");
     }
 
     public Task() {
@@ -55,8 +50,16 @@ public class Task implements Parcelable {
         fecha = in.readString();
         prioridad = in.readInt();
         fk_pdf = in.readInt();
+        nota = in.readString();
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getDescripcion() {
         return descripcion;
@@ -90,6 +93,14 @@ public class Task implements Parcelable {
         this.prioridad = prioridad;
     }
 
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -101,7 +112,7 @@ public class Task implements Parcelable {
         dest.writeString(fecha);
         dest.writeInt(prioridad);
         dest.writeValue(fk_pdf);
-
+        dest.writeValue(nota);
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -119,11 +130,12 @@ public class Task implements Parcelable {
     @Override
     public String toString() {
         return "Task{" +
-                "id=" + id +
-                ", descripcion='" + descripcion + '\'' +
+                "descripcion='" + descripcion + '\'' +
                 ", fecha='" + fecha + '\'' +
                 ", prioridad=" + prioridad +
+                ", nota='" + nota + '\'' +
                 ", fk_pdf=" + fk_pdf +
+                ", id=" + id +
                 '}';
     }
 

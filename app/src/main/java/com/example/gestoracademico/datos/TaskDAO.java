@@ -40,4 +40,6 @@ public interface TaskDAO {
     @Query("DELETE FROM tasks where fk_pdf = :fileID")
     void deleteByFileID(int fileID);
 
+    @Query("UPDATE tasks SET nota= :note where id = :taskId")
+    int updateTaskNote(String note, int taskId);
 }
